@@ -34,6 +34,9 @@ var ndx = crossfilter(const_data);
 *														*
 ********************************************************/
 
+	var nameDimension = ndx.dimension(function (d) { return d.name; });
+	var nameGroup = nameDimension.group();
+
 	// for volumechart
 	var NPURP_labelDimension = ndx.dimension(function (d) { return d.NPURP_label; });
 	var NPURP_labelGroup = NPURP_labelDimension.group();
@@ -76,12 +79,10 @@ var ndx = crossfilter(const_data);
 
 
 	// For datatable
-	var businessDimension = ndx.dimension(function (d) { return d._id; });
+	var dbDimension = ndx.dimension(function (d) { return d._id; });
 /********************************************************
-*														*
-* 	Step4: Create the Visualisations					*
-*														*
-********************************************************/
+ * 	Step4: Create the Visualisations
+ *******************************************************/
 
  bubbleChart.width(650)
 			.height(300)
@@ -193,7 +194,7 @@ rowChart.width(340)
 
 
 dataTable.width(800).height(800)
-	.dimension(businessDimension)
+	.dimension(dbDimension)
 	.group(function(d) { return "List of all Selected Businesses"
 	 })
 	.size(100)
