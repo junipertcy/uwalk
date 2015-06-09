@@ -1,8 +1,4 @@
 /********************************************************
-*
-********************************************************/
-
-/********************************************************
 *														*
 * 	Step0: Load data from json file						*
 *														*
@@ -36,6 +32,30 @@ var ndx = crossfilter(const_data);
 
 	var nameDimension = ndx.dimension(function (d) { return d.name; });
 	var nameGroup = nameDimension.group();
+	var nameDimensionGroup = nameGroup.reduce(
+		//add
+		function(p,v){
+			++p.count;
+			p.review_sum += v.construction_counts;
+			p.lee_const_duration_sum += v.lee_const_durations;
+			p.review_avg = p.review_sum / p.count;
+			p.lee_const_duration_avg = p.lee_const_duration_sum / p.count;
+			return p;
+		},
+		//remove
+		function(p,v){
+			--p.count;
+			p.review_sum -= v.construction_counts;
+			p.lee_const_duration_sum -= v.lee_const_durations;
+			p.review_avg = p.review_sum / p.count;
+			p.lee_const_duration_avg = p.lee_const_duration_sum / p.count;
+			return p;
+		},
+		//init
+		function(p,v){
+			return {count:0, review_sum: 0, lee_const_duration_sum: 0, review_avg: 0, lee_const_duration_avg: 0};
+		}
+	);
 
 	// for volumechart
 	var NPURP_labelDimension = ndx.dimension(function (d) { return d.NPURP_label; });
@@ -85,7 +105,7 @@ var ndx = crossfilter(const_data);
  *******************************************************/
 
  bubbleChart.width(650)
-			.height(300)
+			.height(600)
 			.dimension(NPURP_labelDimension)
 			.group(NPURP_labelDimensionGroup)
 			.transitionDuration(1500)
@@ -119,8 +139,7 @@ var ndx = crossfilter(const_data);
 		        dc.events.trigger(function () {
 		            rowChart.filter(chart.filter());
 		        });
-			            });
-		    ;
+			  });
 
 
 pieChart.width(200)
@@ -162,7 +181,8 @@ volumeChart.width(230)
 			})
 			.xAxis().tickFormat(function(v) {return v;});
 
-console.log(lee_const_durationValueGroup.top(1)[0].value);
+//What is this??
+//console.log(lee_const_durationValueGroup.top(1)[0].value);
 
 lineChart.width(230)
 		.height(200)
@@ -195,9 +215,9 @@ rowChart.width(340)
 
 dataTable.width(800).height(800)
 	.dimension(dbDimension)
-	.group(function(d) { return "List of all Selected Businesses"
+	.group(function(d) { return "被選上的里們"
 	 })
-	.size(100)
+	.size(200)
     .columns([
         function(d) { return d.name; },
         function(d) { return d.NPURP_label; },
