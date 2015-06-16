@@ -32,7 +32,8 @@ var ndx = crossfilter(const_data);
 
 	var nameDimension = ndx.dimension(function (d) { return d.name; });
 	var nameGroup = nameDimension.group();
-	var nameDimensionGroup = nameGroup.reduce(
+	console.log(nameGroup);
+	var nameDimensionGroup = nameDimension.group().reduce(
 		//add
 		function(p,v){
 			++p.count;
@@ -101,14 +102,14 @@ var ndx = crossfilter(const_data);
 	// For datatable
 	var dbDimension = ndx.dimension(function (d) { return d._id; });
 /********************************************************
- * 	Step4: Create the Visualisations
+ * 	Step4: Create the Visualizations
  *******************************************************/
 
  bubbleChart.width(650)
-			.height(600)
+			.height(300)
 			.dimension(NPURP_labelDimension)
 			.group(NPURP_labelDimensionGroup)
-			.transitionDuration(1500)
+			.transitionDuration(1000)
 			.colors(["#ff0000", "#ff4040","#ff7373","#67e667","#39e639","#00cc00"])
 			.colorDomain([-12000, 12000])
 

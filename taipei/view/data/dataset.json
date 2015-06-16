@@ -1,5 +1,11 @@
-[
-  {
+[{
+    "date_posted" : "Date",
+    "resource_type" >> "req_type"
+    "poverty_level" >> "duration_level"
+    "school_state" >> "village"
+
+    "total_donations" >> "total_counts"
+},{
     "lat":121.6244835,
     "lng":25.04211973,
     "month":6,
