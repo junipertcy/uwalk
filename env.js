@@ -19,5 +19,5 @@ var mergeObject = function(obj1, obj2) {
 mergeObject(GLOBAL, require('./models'));
 
 if (process.env.NODE_ENV === 'test') {
-  GLOBAL.http = require('supertest')(require('./app'));
+  GLOBAL.http = require('supertest')(require('./main'));
 }
