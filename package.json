@@ -1,0 +1,49 @@
+{
+  "name": "construction-analytics",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.1",
+    "body-parser": "~1.0.0",
+    "config": "^0.4.35",
+    "express": "~4.0.0",
+    "express-di": "^4.0.0",
+    "mongoose": "^4.0.5",
+    "morgan": "~1.0.0",
+    "node-require-directory": "^1.0.2",
+    "yaml": "^0.2.3"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.18.2",
+    "supertest": "^0.11.0"
+  },
+  "jshintConfig": {
+    "unused": true,
+    "node": true
+  },
+  "description": "An Interactive Visualization System to Analyze and Predict Urban Construction Dynamics",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/junipertcy/dssg"
+  },
+  "keywords": [
+    "construction requests",
+    "interactive visualization",
+    "urban computing",
+    "open data",
+    "regional analysis",
+    "clustering",
+    "regression"
+  ],
+  "author": "Tzu-Chi Yen <junipertcy@gmail.com>, Tzu-Yun Lin <power6188@gmail.com>, Ching-Yuan Yeh <jimteayeh@gmail.com>, Hsun-Ping Hsieh <sandoh714@gmail.com> and Cheng-Te Li <ctli@citi.sinica.edu.tw>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/junipertcy/dssg/issues"
+  },
+  "homepage": "https://github.com/junipertcy/dssg"
+}
