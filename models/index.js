@@ -1,4 +1,4 @@
-var models = require('node-require-directory')(__dirname);
+var models = require('require-directory')(module);
 var mongoose = require('mongoose');
 var lingo = require('lingo');
 var config = require('config');
