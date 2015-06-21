@@ -1,4 +1,4 @@
-var factories = require('node-require-directory')(__dirname);
+var factories = require('require-directory')(module);
 
 module.exports = function(app) {
   Object.keys(factories).forEach(function(key) {
