@@ -11,6 +11,7 @@
     "config": "^0.4.35",
     "express": "~4.0.0",
     "express-di": "^4.0.0",
+    "lingo": "0.0.5",
     "mongoose": "^4.0.5",
     "morgan": "~1.0.0",
     "node-require-directory": "^1.0.2",
