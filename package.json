@@ -29,7 +29,7 @@
     "node": true
   },
   "description": "An Interactive Visualization System to Analyze and Predict Urban Construction Dynamics",
-  "main": "app.js",
+  "main": "main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/junipertcy/dssg"
