@@ -10,6 +10,7 @@
     "bcrypt": "^0.8.1",
     "body-parser": "~1.0.0",
     "config": "^0.4.35",
+    "debug": "^2.2.0",
     "express": "~4.0.0",
     "express-di": "^4.0.0",
     "express-json-2-csv": "^0.2.2",
