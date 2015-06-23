@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var lingo = require('lingo');
 var config = require('config');
 
+mongoose.set('debug', true);
+
 var DB = mongoose.connect('mongodb://' + config.mongodb.host + '/' + config.mongodb.database);
 var LogDB = mongoose.createConnection('mongodb://' + config.logMongodb.host + '/' + config.logMongodb.database);
 
