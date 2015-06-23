@@ -10,7 +10,7 @@ console.log(config.mongodb);
 console.log('config info is: ');
 console.log(config);
 
-
+/*
 var DB = mongoose.connect('mongodb://' + config.mongodb.host + '/' + config.mongodb.database);
 var LogDB = mongoose.createConnection('mongodb://' + config.logMongodb.host + '/' + config.logMongodb.database);
 
@@ -31,3 +31,4 @@ Object.keys(models).forEach(function(key) {
 self.DB = DB;
 
 global.mongoose = mongoose;
+*/
