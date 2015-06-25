@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
 });
 
 if (app.get('env') !== 'test') {
-  app.listen(process.env.PORT || 8081);
+  app.listen(process.env.PORT || 3000);
 }
 
-app.set('port', process.env.PORT || 8081);
+app.set('port', process.env.PORT || 3000);
