@@ -4,8 +4,8 @@ var lingo = require('lingo');
 var config = require('config');
 
 
-var DB = mongoose.connect('mongodb://' + config.mongodb.host + '/' + config.mongodb.database);
-var LogDB = mongoose.createConnection('mongodb://' + config.logMongodb.host + '/' + config.logMongodb.database);
+var DB = mongoose.connect('mongodb://' + localhost + '/' + construction_api);
+var LogDB = mongoose.createConnection('mongodb://' + localhost + '/' + construction_log);
 
 var self = module.exports = {};
 
