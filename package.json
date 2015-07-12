@@ -12,6 +12,7 @@
     "body-parser": "~1.10.1",
     "config": "^1.9.0",
     "debug": "^2.2.0",
+    "defer": "0.0.1",
     "express": "~4.10.7",
     "express-di": "^4.1.1",
     "express-json-2-csv": "^0.2.2",
