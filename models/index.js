@@ -1,7 +1,6 @@
 var models = require('require-directory')(module);
 var mongoose = require('mongoose');
 var lingo = require('lingo');
-var config = require('config');
 
 
 var DB = mongoose.connect('mongodb://' + 'localhost' + '/' + 'research');
