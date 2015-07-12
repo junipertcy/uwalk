@@ -4,30 +4,47 @@
   "private": true,
   "scripts": {
     "start": "node main.js",
-    "test": "mocha"
+    "test": "NODE_ENV=test mocha --recursive --timeout 30000"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "bcrypt": "^0.8.1",
-    "body-parser": "~1.0.0",
-    "config": "^0.4.35",
-    "debug": "^2.2.0",
-    "express": "~4.0.0",
-    "express-di": "^4.0.0",
+    "body-parser": "~1.10.1",
+    "config": "^1.9.0",
+    "express": "~4.10.7",
+    "express-di": "^4.1.1",
     "express-json-2-csv": "^0.2.2",
+    "express-validator": "^2.11.0",
+    "jade": "^1.9.1",
     "lingo": "0.0.5",
     "mongoose": "^4.0.6",
-    "morgan": "~1.0.0",
-    "node-require-directory": "^1.0.2",
-    "require-directory": "^2.1.1"
+    "morgan": "~1.5.1",
+    "require-directory": "^2.1.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.18.2",
-    "supertest": "^0.11.0"
+    "supertest": "^0.11.0",
+    "should": "^3.3.1"
   },
   "jshintConfig": {
+    "undef": true,
     "unused": true,
-    "node": true
+    "node": true,
+    "strict": false,
+    "predef": [
+      "describe",
+      "beforeEach",
+      "afterEach",
+      "it",
+      "http",
+      "DB",
+      "Picture",
+      "NoiseGrid",
+      "Log",
+      "cartodb"
+    ]
   },
   "description": "An Interactive Visualization System to Analyze and Predict Urban Construction Dynamics",
   "main": "main.js",
