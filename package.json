@@ -15,6 +15,7 @@
     "debug": "^2.2.0",
     "defer": "0.0.1",
     "depd": "^1.0.1",
+    "destroy": "^1.0.3",
     "express": "~4.10.7",
     "express-di": "^4.1.1",
     "express-json-2-csv": "^0.2.2",
