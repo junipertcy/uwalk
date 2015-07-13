@@ -17,6 +17,7 @@
     "express-di": "^4.1.1",
     "express-json-2-csv": "^0.2.2",
     "express-validator": "^2.11.0",
+    "finalhandler": "^0.4.0",
     "jade": "^1.9.1",
     "lingo": "0.0.5",
     "mongoose": "^4.0.6",
