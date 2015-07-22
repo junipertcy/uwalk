@@ -2,7 +2,7 @@ var models = require('require-directory')(module);
 var mongoose = require('mongoose');
 var lingo = require('lingo');
 
-
+//statically written!!
 var DB = mongoose.connect('mongodb://' + 'localhost' + '/' + 'research');
 var LogDB = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'construction_log');
 
