@@ -1,0 +1,10 @@
+branch-defaults:
+  develop:
+    environment: construction-analytics
+global:
+  application_name: construction-analytics
+  default_ec2_keyname: aws-eb-construction
+  default_platform: Node.js
+  default_region: null
+  profile: null
+  sc: git
