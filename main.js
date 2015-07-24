@@ -9,10 +9,6 @@ app.use(require('morgan')('dev'));
 var bodyParser = require('body-parser');
 app.use(require('express-json-2-csv')());
 
-
-require('./factories')(app);
-require('./routes')(app);
-require('./models');
 app.use(require('express-validator')({
   customValidators: {
     isArray: function(value) {
@@ -52,17 +48,31 @@ app.use(require('express-validator')({
     }
   }
 }));
-/*
+
+// Add headers
 app.use(function(req, res, next) {
+  console.log('here\'s in the app.use code');
+  console.log(req);
+  // Website you wish to allow to connect
   res.header('Access-Control-Allow-Origin', req.headers.origin);
+
+  // Request methods you wish to allow
   res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT, PATCH, OPTIONS');
+
+  // Request headers you wish to allow
   res.header('Access-Control-Allow-Headers',
-             'Origin, X-Requested-With, X-Session-ID, X-Media-Type, X-Wechat-AppID, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
+             'Origin, X-Requested-With, Content-Type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.header('Access-Control-Allow-Credentials', true);
+
   next();
 });
-*/
 
+require('./factories')(app);
+require('./routes')(app);
+require('./models');
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -82,8 +92,11 @@ if (app.get('env') === 'development') {
 }
 
 app.use(function(err, req, res, next) {
+  console.log(err);
   res.status(err.status || 500);
   res.json({
+    errcode: err.code,
+    errmsg: err.message,
     error: {}
   });
 });
