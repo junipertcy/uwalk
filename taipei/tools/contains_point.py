@@ -7,7 +7,7 @@
 import json
 import matplotlib.path as mplPath
 import numpy as np
-from pymongo import MongoClient
+from pymongo import MongoClien
 from pprint import pprint
 from shapely.geometry import Polygon
 
