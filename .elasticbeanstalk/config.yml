@@ -1,0 +1,10 @@
+branch-defaults:
+  develop:
+    environment: urban-walkability
+global:
+  application_name: urban-walkability
+  default_ec2_keyname: aws-eb-construction
+  default_platform: Node.js
+  default_region: null
+  profile: null
+  sc: git
