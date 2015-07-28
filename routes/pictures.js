@@ -2,20 +2,27 @@
  * Output: [pic urls]
  */
 
-//必須要檢查輸入，若不正確要抱錯，避免重啟
+//必須要檢查輸入，若不正確要報錯，避免重啟
 var express = require('express');
 
 var app = module.exports = express();
 
 app.get('/', function(req, res) {
-  console.log('Hello, here\'s the pictures API!');
-
+  console.log('Hello, you have entered the pictures API!');
 
   if (!req.query.lat || !req.query.lng){
     return res.status(400).json({
       msg: 'latlng is required'
     });
   }
+
+  var errors = [];
+  req.onValidationError(function(msg){
+    errors.push(msg);
+  });
+
+  req.checkBody('lat', {errcode: '', errmsg: ''}).notEmpty().
+
   var lat = req.query.lat;
   var lng = req.query.lng;
 
