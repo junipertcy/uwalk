@@ -12,17 +12,9 @@ app.get('/', function(req, res) {
     });
   }
 
-  var lat = req.query.lat;
-  var lng = req.query.lng;
+  var lat = parseFloat(req.query.lat);
+  var lng = parseFloat(req.query.lng);
 
-  console.log('Before finding pictures....');
-
-  console.log('typeof lat is');
-  console.log(typeof lat);
-  console.log('lat is');
-  console.log(lat);
-  console.log('parseFloat(lat) is');
-  console.log(parseFloat(lat));
 
   //The coordinate order is longitude, then latitude.
   Picture.geoNear([lng, lat], {
