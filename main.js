@@ -51,8 +51,7 @@ app.use(require('express-validator')({
 
 // Add headers
 app.use(function(req, res, next) {
-  console.log('here\'s in the app.use code');
-  console.log(req);
+
   // Website you wish to allow to connect
   res.header('Access-Control-Allow-Origin', req.headers.origin);
 

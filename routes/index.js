@@ -8,7 +8,7 @@ module.exports = function(app) {
   });
 
   app.get('/', function(req, res) {
-    res.json({ 'Taipei Road Construction Analytics System Version': '1.0' });
+    res.json({ 'Urban Walkability System Version': '0.0.1' });
   });
 
 };
