@@ -16,16 +16,16 @@ app.get('/', function(req, res) {
   var lng = req.query.lng;
 
   console.log('Before finding pictures....');
-  Picture.findOne({
 
-  }).exec(function(err, onepic){
-    console.log('pic found is');
-    console.log(onepic);
-  });
-
+  console.log('typeof lat is');
+  console.log(typeof lat);
+  console.log('lat is');
+  console.log(lat);
+  console.log('parseFloat(lat) is');
+  console.log(parseFloat(lat));
 
   //The coordinate order is longitude, then latitude.
-  Picture.geoNear([parseFloat(lng), parseFloat(lat)], {
+  Picture.geoNear([lng, lat], {
     num: 10,
     maxDistance: 10,
     spherical: true
