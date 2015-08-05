@@ -45,7 +45,7 @@
       "cartodb"
     ]
   },
-  "description": "An Interactive Visualization System to Analyze and Predict Urban Construction Dynamics",
+  "description": "The urban-walkability project",
   "main": "main.js",
   "repository": {
     "type": "git",
