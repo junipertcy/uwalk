@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ACMMM 2015 | IBM New York City 360 DEMO</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link href="css/ny_licenses.css" rel="stylesheet">
+    <link  href="css/cartodb-leaflet.css" rel="stylesheet" type="text/css">
+
+
+    <style>
+      body, html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} #map {position:absolute; top:0px; left:0; right:0; bottom:0;}
+      #layer_selector {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 0;
+      }
+      #layer_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+      }
+      #layer_selector li {
+        border-bottom: 1px solid #999;
+        padding: 15px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
+      #layer_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
+      #layer_selector li.selected {
+        background-color: #EEE;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+  </head>
+  <body>
+
+
+
+
+    <div class="alert alert-info" id="legend">
+
+    <div style="margin-left: 12px; margin-top:5px;">
+    <h3>
+    <a href="http://savannahnow.com" target="_blank">New York City Noise Inspection</a>
+    </h3>
+    </div>
+
+    <div id="about">
+      <p><b><br>Reasoning Urban Noises from Multimodal Geo-Social Media Data</b></p><div id="info">
+      Data: <a href="http://ga.state.gegov.com/georgia/search.cfm?county=Chatham" target="_blank">NYC 311 Service Requests Database</a> | <a href="about.html" onclick="window.open('about.html','popup','width=500,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'); return false">About this Map</a></div></div><div style="margin-top:5px;margin-bottom:10px;margin-left:12px;color:#000">
+
+      <em>Click over the locations to see noise details.</em>
+    </div>
+
+    <div style="margin-bottom:7px;margin-left:12px;">
+      <label for="txtGeocode">
+      Search by address:</label>
+      <input id="txtGeocode" type="text" />
+      <input id="btnGeocode" type="button" value="Find" />
+    </div>
+
+    <div style="float:center; display: none;"></div>
+    <div class="filter">Filter by seasons and weekdays:</div>
+    <div class="btn-group">
+      <button class="btn" onClick="changeLayer('All')">All</button>
+
+
+      <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle" onClick="changeLayer('A')" data-toogle="dropdown"><img src="img/red.png" width="11" height="12" />Spring<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+      </ul>
+      </div>
+
+
+      <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle" onClick="changeLayer('B')" data-toogle="dropdown"><img src="img/green.png" width="11" height="12" />Summer<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+      </ul>
+      </div>
+
+
+
+      <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle" onClick="changeLayer('C')" data-toogle="dropdown"><img src="img/yellow.png" width="11" height="12" />Fall<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+      </ul>
+      </div>
+
+
+      <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle" onClick="changeLayer('D')" data-toogle="dropdown"><img src="img/blue.png" width="11" height="12" />Winter<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+      </ul>
+      </div>
+    </div>
+
+
+
+
+
+    <div id="copyright">© 2015 <a href="http://junipertcy.info">Hsun-Ping Hsieh, </a><a href="http://junipertcy.info">Tzu-Chi Yen</a> and <a href="http://junipertcy.info">Cheng-Te Li</a></div>
+</div>
+
+
+
+    <div id="map">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+
+    <script>
+      // create layer selector
+      function createSelector(layer) {
+        var sql = new cartodb.SQL({ user: 'junipertcy' });
+        var $options = $('#layer_selector li');
+        $options.click(function(e) {
+          // get the count of the selected layer
+          var $li = $(e.target);
+          var count = $li.attr('data');
+          // deselect all and select the clicked one
+          $options.removeClass('selected');
+          $li.addClass('selected');
+          // create query based on data from the layer
+          var query = "select * from test_3";
+          if(count !== 'all') {
+            query = "select * from test_3 where count > " + count;
+          }
+          // change the query in the layer to update the map
+          layer.setSQL(query);
+        });
+      }
+
+      function main() {
+
+
+
+
+
+
+        cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/30f22032-23cb-11e5-ad81-0e43f3deba5a/viz.json', {
+          tiles_loader: true,
+          center_lat: 40.6941,
+          center_lon: -73.8758,
+          zoom: 10
+        })
+        .done(function(vis, layers) {
+          // layer 0 is the base layer, layer 1 is cartodb layer
+          var subLayer = layers[1].getSubLayer(0);
+          createSelector(subLayer);
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+      }
+      window.onload = main;
+    </script>
+
+
+
+
+
+
+
+
+    <script src="js/bootstrap-tab.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script type="text/javascript" src="dist/cartodb-leaflet-min.js"></script>
+    <script type="text/javascript" src="dist/cartodb-popup-min.js"></script>
+
+
+  <script src="js/leaflet.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

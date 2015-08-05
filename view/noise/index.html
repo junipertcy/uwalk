@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ACMMM 2015 | IBM New York City 360 DEMO</title>
+    <meta name="description" content="New York City Noise Diagnotor - part of the urban-walkability project">
+    <meta name="author" content="">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+<!-- pace --//在讀取圖片放，在首頁放，其他都不放
+    <script src="bower_components/pace/pace.js"></script>
+    <link href="bower_components/pace/themes/blue/pace-theme-loading-bar.css" rel="stylesheet" />
+<!-- left -->
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="bower_components/cartodb.js/themes/css/cartodb.css" rel="stylesheet">
+    <link href="bower_components/jcarousel/examples/data-attributes/jcarousel.data-attributes.css" rel="stylesheet">
+    <link href="bower_components/jquery-menu/src/css/jquery.menu.css" rel="stylesheet">
+    <link href="bower_components/mapbox.js/mapbox.css" rel="stylesheet">
+    <link href="bower_components/Font-Awesome/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link href="plugins/css/ny_licenses.css" rel="stylesheet">
+    <link href="plugins/css/map.css" rel="stylesheet">
+
+  <!-- for mapbox infowindow --
+  <style>
+    #mapbox { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+  <!-- -->
+
+  </head>
+
+
+  <body>
+
+    <div class="alert alert-info" id="legend">
+
+
+    <div style="margin-left: 12px; margin-top:5px;">
+      <h3>
+        <a href="./" target="_blank">New York City Urban Noise Diagnotor</a>
+      </h3>
+    </div>
+
+    <div id="about">
+      <p><b><br>Reasoning Urban Noises from Multimodal Geo-Social Media Data</b></p><div id="info">
+      Data: <a href="https://nycopendata.socrata.com/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9" target="_blank">NYC 311 Service Requests Database</a>, <a href="https://developer.foursquare.com/" target="_blank">Foursquare API</a>, <a href="https://www.flickr.com/services/api/" target="_blank">Flickr API</a>, <a href="https://snap.stanford.edu/data/loc-gowalla.html" target="_blank">SNAP-Gowalla</a> and <a href="https://dev.twitter.com" target="_blank">Twitter API</a> | <a href="about.html" onclick="window.open('about.html','popup','width=500,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'); return false">About this study</a></div></div><div style="margin-top:5px;margin-bottom:10px;margin-left:12px;color:#000">
+
+      <em>Click over the locations to see noise details.</em>
+    </div>
+
+    <div style="margin-bottom:7px;margin-left:12px;">
+      <label for="txtGeocode">
+      Search by address:</label>
+      <input id="txtGeocode" type="text" />
+      <input id="btnGeocode" type="button" value="Find" />
+    </div>
+
+    <div style="float:center; display: none;"></div>
+    <div class="filter">Filter by seasons and weekdays:</div>
+
+    <div class="btn-group">
+      <button class="btn" onClick="showLayer('Z')">All</button>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="img/red.png" width="11" height="12" /> Spring<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" onClick="showLayer('A0')">All</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#" onClick="showLayer('A1')">Weekdays</a></li>
+        <li><a href="#" onClick="showLayer('A2')">Weekends</a></li>
+      </ul>
+      </div>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="img/green.png" width="11" height="12" /> Summer<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" onClick="showLayer('B0')">All</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#" onClick="showLayer('B1')">Weekdays</a></li>
+        <li><a href="#" onClick="showLayer('B2')">Weekends</a></li>
+      </ul>
+      </div>
+
+      <div class="btn-group">
+        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><img src="img/yellow.png" width="11" height="12" /> Fall<span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" onClick="showLayer('C0')">All</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#" onClick="showLayer('C1')">Weekdays</a></li>
+        <li><a href="#" onClick="showLayer('C2')">Weekends</a></li>
+      </ul>
+      </div>
+
+      <div class="btn-group">
+        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><img src="img/blue.png" width="11" height="12" /> Winter<span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#" onClick="showLayer('D0')">All</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#" onClick="showLayer('D1')">Weekdays</a></li>
+          <li><a href="#" onClick="showLayer('D2')">Weekends</a></li>
+        </ul>
+      </div>
+
+    </div>
+      <div id="copyright">© 2015 <a href="http://mslab.csie.ntu.edu.tw/~sandoh/">Hsun-Ping Hsieh</a>, <a href="http://junipertcy.info">Tzu-Chi Yen</a> and <a href="http://www.citi.sinica.edu.tw/pages/ctli/index_en.html">Cheng-Te Li</a>
+      </div>
+    </div>
+
+    <div id="map">
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/cartodb.js/cartodb.js"></script>
+    <script src="bower_components/jcarousel/dist/jquery.jcarousel.min.js"></script>
+    <script src="bower_components/highcharts/highcharts.js"></script>
+    <script src="bower_components/highcharts/highcharts-more.js"></script>
+    <script src="bower_components/highcharts/modules/exporting.js"></script>
+    <script src="bower_components/mapbox.js/mapbox.js"></script>
+
+    <script src="plugins/js/tools.js"></script>
+
+
+
+
+
+    <script>
+      var layerAllSpring, layerSummer, layerFall, layerWinter;
+      function main() {
+        cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/30f22032-23cb-11e5-ad81-0e43f3deba5a/viz.json', {
+          tiles_loader: true,
+          center_lat: 40.6941,
+          center_lon: -73.8758,
+          zoom: 11,
+          infowindow: true
+        })
+        .done(function(vis, layers) {
+          // layer 0 is the base layer, layer 1 is cartodb layer
+          layerAllSpring = layers[1];
+
+          cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/3286ffce-23b9-11e5-8b3a-0e018d66dc29/viz.json',{
+            tiles_loader: true,
+            center_lat: 40.6941,
+            center_lon: -73.8758,
+            zoom: 11,
+            infowindow: true
+          })
+          .done(function(vis, layers){
+            layerSummer = layers[1];
+            cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/0c05b666-225f-11e5-ac2f-0e6e1df11cbf/viz.json',{
+            })
+            .done(function(vis, layers){
+              layerFall = layers[1];
+              cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/087960e8-360e-11e5-81de-0e8dde98a187/viz.json',{
+              })
+              .done(function(vis, layers){
+              layerWinter = layers[1];
+
+              // To set custom infowindow, we define the sublayer here
+              var sublayer = layerAllSpring.getSubLayer(0);
+              var custom_infowindow;
+
+
+              layerAllSpring.on('featureClick', function(e, latlng, pos, data) {
+                var sql = new cartodb.SQL({ user: 'junipertcy' });
+                //Select yearly data
+                sql.execute('SELECT * FROM z_5 WHERE cartodb_id = ' + data.cartodb_id)
+                  .done(function(yearData){
+                    var i = yearData.rows[0];
+                    var gridYear = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
+                    gridYear = toPercent(gridYear);
+
+                    //Select seasonal data
+                    sql.execute('SELECT * FROM a0 WHERE cartodb_id = ' + data.cartodb_id)
+                      .done(function(seasonData){
+                        var i = seasonData.rows[0];
+                        var gridSeason = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
+                        gridSeason = toPercent(gridSeason);
+
+
+                        //Pulling pictures
+                        var loc = latlng.toString().split(',').map(Number);
+                        $.get('http://urban-walkability.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(data){
+
+                          var custom_infowindow_order_1_='';
+
+                          if (data.msg){
+                            $.each(data.msg, function(i){
+                              var imgurl = data.msg[i];
+                              var url = '<li style="width: 400px; height: 300px"><img src="' +
+                                imgurl +
+                                '" width="400" height="300" alt=""></li>';
+
+                              custom_infowindow_order_1_ = custom_infowindow_order_1_+url;
+
+                              return i < 10;
+                            });
+
+                            custom_infowindow = custom_infowindow_order_1 +
+                              custom_infowindow_order_1_+
+                              custom_infowindow_order_2 +
+                              custom_infowindow_order_3;
+
+                            sublayer.infowindow.set({
+                              template: custom_infowindow,
+                              sanitizeTemplate: false,
+                              width: 400,
+                              maxHeight: 700
+                            });
+                            draw_chart(gridYear, gridSeason);
+                          }
+                        });
+                      })
+                      .error(function(errors) {
+                        // errors contains a list of errors
+                        console.log('errors:' + errors);
+                      });
+                  })
+                  .error(function(errors) {
+                    // errors contains a list of errors
+                    console.log('errors:' + errors);
+                  });
+                });
+
+              })
+              .error(function(err){
+                console.log('id: 087960e8-360e-11e5-81de-0e8dde98a187 layerWinter LOADING ERROR');
+                console.log(err);
+              });
+            })
+            .error(function(err){
+              console.log('id: 0c05b666-225f-11e5-ac2f-0e6e1df11cbf layerFall LOADING ERROR');
+              console.log(err);
+            });
+          })
+          .error(function(err){
+            console.log('id: 3286ffce-23b9-11e5-8b3a-0e018d66dc29 layerSummer LOADING ERROR');
+            console.log(err);
+          });
+        })
+        .error(function(err) {
+          console.log('id: 30f22032-23cb-11e5-ad81-0e43f3deba5a layerAllSpring LOADING ERROR');
+          console.log(err);
+        });
+      }
+
+    function showLayer(layerToShow) {
+        var layer = layerAllSpring.getSubLayers().concat(layerSummer.getSubLayers(), layerFall.getSubLayers(), layerWinter.getSubLayers());
+
+        console.log(layerSummer);
+
+        // var layer = layerAllSpring.getSubLayers();
+        console.log(layer);
+        //turn off all layer
+        layer.forEach(function(i) {
+          i.hide();
+        });
+
+        switch (layerToShow) {
+            case 'Z':
+                layer[0].show();
+            break;
+            case 'A0':
+                layer[1].show();
+                break;
+            case 'A1':
+                layer[2].show();
+                break;
+            case 'A2':
+                layer[3].show();
+                break;
+            case 'B0':
+                layer[4].show();
+                break;
+            case 'B1':
+                layer[5].show();
+                break;
+            case 'B2':
+                layer[6].show();
+                break;
+            case 'C0':
+                layer[7].show();
+                break;
+            case 'C1':
+                layer[8].show();
+                break;
+            case 'C2':
+                layer[9].show();
+                break;
+            case 'D0':
+                layer[10].show();
+                break;
+            case 'D1':
+                layer[11].show();
+                break;
+            case 'D2':
+                layer[12].show();
+            break;
+        }
+        return true;
+    }
+
+    window.onload = main;
+
+    </script>
+
+
+
+
+  </body>
+</html>

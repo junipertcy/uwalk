@@ -1,0 +1,14 @@
+{
+  "undef": true,
+  "unused": true,
+  "strict": false,
+  "indent": 2,
+  "node": true,
+  "jquery": true,
+  "predef": [
+    "_",
+    "showLayer",
+    "cartodb",
+    "draw_chart"
+  ]
+}
