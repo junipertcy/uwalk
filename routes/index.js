@@ -1,6 +1,5 @@
 var routes = require('require-directory')(module);
-var fs = require('fs');
-var html = fs.readFileSync('view/noise/index.html');
+var urllib = require('urllib');
 
 module.exports = function(app) {
   Object.keys(routes).forEach(function(key) {
@@ -14,10 +13,15 @@ module.exports = function(app) {
   });
 
   //acmmm-2015: NYC Grand Challenge
-  app.get('/view/noise', function(req, res) {
-    res.writeHead(200);
-    res.write(html);
-    res.end();
-  });
+  app.get('/noise', function(req, res) {
 
+    var url = 'http://junipertcy.info/acmmm-2015';
+    urllib.request(url, function(err, data, response){
+      console.log(err);
+      console.log(data);
+      console.log(response);
+      res.write(data);
+      res.end();
+    });
+  });
 };

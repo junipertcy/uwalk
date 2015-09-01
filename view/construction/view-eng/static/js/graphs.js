@@ -96,9 +96,9 @@ function makeGraphs(error, jsonData, villageJson) {
         .overlayGeoJson(villageJson["features"], "state", function (d) {
             return d.properties.VNAME;
         })
-        .projection(d3.geo.albers()
-                    .scale(150000)
-                    .center([121.572,25.020])
+        .projection(d3.geo.mercator()
+                    .scale(90100)
+                    .center([121.68,25.064])
                     .rotate([0,0]));
 
     dc.renderAll();

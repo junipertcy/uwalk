@@ -85,7 +85,7 @@ if (app.get('env') === 'development') {
     console.log('Hello, there! You are in the development environment.');
     res.status(err.status || 500);
     res.json({
-      env: 'development'
+      env: 'You\'ve got an error, some features are still under development...'
     });
   });
 }
