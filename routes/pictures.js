@@ -30,7 +30,6 @@ app.get('/', function(req, res) {
       });
     }
 
-
     var urlArray = [];
     picture.forEach(function(e){
       urlArray.push(e.obj.imgurl);

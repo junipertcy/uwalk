@@ -1,0 +1,51 @@
+[{
+  "_id": "55f17ad082f72322a54e7b58",
+  "stats": {
+    "usersCount": 1,
+    "checkinsCount": 2
+  },
+  "location": {
+    "lat": 40.664509999999999934,
+    "lng": -73.637940000000000396,
+    "name": "Lilas Yard"
+  },
+  "categories": [{
+    "id": "42885",
+    "name": "Professional & Other Places",
+    "primary": true,
+  }]
+},{
+  "_id": "55f17ad082f72322a54e7b5e",
+  "stats": {
+    "usersCount": 92,
+    "checkinsCount": 115
+  },
+  "location": {
+    "lat": 40.679394000000002052,
+    "lng": -73.987359999999995352,
+    "name": "Cabinet Magazine"
+  },
+  "categories": [{
+    "id": "42883",
+    "name": "Art Gallery",
+    "primary": true,
+    "_id": "55f17ad082f72322a54e7b5f"
+  }]
+},{
+  "_id": "55f17ad082f72322a54e7b76",
+  "stats": {
+    "usersCount": 40,
+    "checkinsCount": 461
+  },
+  "location": {
+    "lat": 40.750762999999999181,
+    "lng": -73.971630000000004657,
+    "name": "The Episcopal Church Center"
+  },
+  "categories": [{
+    "id": "42879",
+    "name": "Corporate Office",
+    "primary": true,
+    "_id": "55f17ad082f72322a54e7b77"
+  }]
+}]

@@ -44,7 +44,9 @@
       "Picture",
       "NoiseGrid",
       "Log",
-      "cartodb"
+      "cartodb",
+      "Checkin",
+      "Network"
     ]
   },
   "description": "The urban-walkability project",
