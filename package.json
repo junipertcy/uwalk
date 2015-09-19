@@ -21,7 +21,7 @@
     "morgan": "^1.6.1",
     "require-directory": "^2.1.1",
     "underscore": "^1.8.3",
-    "urllib": "^2.3.9"
+    "urllib": "^2.4.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
@@ -46,7 +46,8 @@
       "Log",
       "cartodb",
       "Checkin",
-      "Network"
+      "Network",
+      "Fscategory"
     ]
   },
   "description": "The urban-walkability project",
