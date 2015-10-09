@@ -1,10 +1,10 @@
 branch-defaults:
   develop:
-    environment: urban-walkability
+    environment: uwalk
 global:
-  application_name: urban-walkability
+  application_name: uwalk
   default_ec2_keyname: aws-eb-construction
-  default_platform: Node.js
-  default_region: null
-  profile: null
+  default_platform: 64bit Amazon Linux 2015.03 v2.0.1 running Node.js
+  default_region: us-west-1
+  profile: eb-cli
   sc: git
