@@ -18,7 +18,7 @@ app.get('/', function(req, res){
   var url;
   Checkin.geoNear([lat, lng], {
     num: num,
-    maxDistance: 10000,
+    maxDistance: 1000,
     spherical: true
   }, function(err, checkins){
     if (err){
@@ -26,7 +26,17 @@ app.get('/', function(req, res){
         msg: err
       });
     }
+    var ee = [];
+    checkins.forEach(function(e){
+      ee.push(e.obj.stats.checkinsCount);
+    });
 
+    ee.
+
+    checkins =  _.sortBy(checkins, 'obj.stats.checkinsCount');
+    console.log(checkins);
+    //console.log(checkins.sort('obj.stats.checkinsCount'));
+    //console.log(checkins);
     async.map(checkins, function(checkin, next){
       Fscategory.find({
           $text: {
@@ -41,27 +51,27 @@ app.get('/', function(req, res){
           $meta: 'textScore'
         }
       }).exec(function(err, fsc){
-      //console.log(checkin);
         if (!fsc){
-          url = 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/default_44.png';
+          url = 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/default_bg_32.png';
           checkin.icon = url;
           next(null, checkin);
         } else {
           fsc = fsc[0];
-          url = fsc.icon.prefix + '44' + fsc.icon.suffix;
-          checkin.icon = url;
-          //console.log(fsc.shortName,' v.s. ',checkin.obj.categories[0].name);
-          next(null,checkin);
-
-          //console.log(fsc.shortName,' v.s. ',checkin.obj.categories[0].name);
-          //console.log(url);
-          //checkin.url = url;
-
+          if (!fsc){
+            console.log('category icon not found, replaced by some default icons...');
+            console.log(checkin.obj.categories[0].name);
+            url = 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/default_bg_32.png';
+            checkin.icon = url;
+            next(null,checkin);
+          } else {
+            url = fsc.icon.prefix + 'bg_32' + fsc.icon.suffix;
+            checkin.icon = url;
+            next(null,checkin);  
+          }
         }
 
       });
     }, function(err, checkinArray){
-      console.log(checkinArray);
       return res.status(200).json({
         msgcode: 0,
         data: checkinArray
