@@ -35,12 +35,15 @@ config/*
 
 
 # Data.Taipei Hackathon files
-dataTaipeiHackathon
+dataTaipeiHackathon/*
 
 # Paper files
-urbcomp-2015-paper
+urbcomp-2015-paper/*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Data
+data/*
