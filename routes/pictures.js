@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
   //The coordinate order is longitude, then latitude.
   Picture.geoNear([lng, lat], {
     num: 10,
-    maxDistance: 10,
+    maxDistance: 100, //meters
     spherical: true
   }, function(err, picture){
 
