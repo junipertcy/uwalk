@@ -1,6 +1,5 @@
 var express = require('express');
 var async = require('async');
-var fs = require('fs');
 var _ = require('underscore');
 var app = module.exports = express();
 
@@ -66,7 +65,7 @@ app.get('/', function(req, res){
           } else {
             url = fsc.icon.prefix + 'bg_32' + fsc.icon.suffix;
             checkin.icon = url;
-            next(null,checkin);  
+            next(null,checkin);
           }
         }
 
