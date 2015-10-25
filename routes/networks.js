@@ -1,6 +1,5 @@
 var express = require('express');
 var async = require('async');
-var fs = require('fs');
 var _ = require('underscore');
 var app = module.exports = express();
 
@@ -14,13 +13,12 @@ app.get('/', function(req, res){
   var lat = parseFloat(req.query.lat);
   var lng = parseFloat(req.query.lng);
 
-  var num = req.query.num | 10;
-  var url;
-  var loc = [lat, lng]
+  var loc = [lng, lat];
 
   Node.geoNear(loc, {
-    maxDistance: 5, //meters
-    spherical: true
+    maxDistance: 1, //meters
+    spherical: true,
+    limit: 1000
   }, function(err, nodes){
     if (!nodes){
       return res.status(400).json({
@@ -35,8 +33,9 @@ app.get('/', function(req, res){
       });
     }
     Edge.geoNear(loc, {
-      maxDistance: 5, //meters
-      spherical: true
+      maxDistance: 1, //meters
+      spherical: true,
+      limit: 1000
     }, function(err, edges){
       if (!edges){
         return res.status(400).json({
@@ -50,7 +49,13 @@ app.get('/', function(req, res){
           msg: err
         });
       }
-      nodes = _.uniq(nodes);
+
+      nodes = _.map(_.groupBy(nodes, function(obj){
+        return obj.obj.id;
+      }), function(array){
+        return array[0];
+      });
+
       async.map(nodes, function(node, next){
         var nodeToPass = {
           id: node.obj.id.toString(),
@@ -61,15 +66,29 @@ app.get('/', function(req, res){
         };
         next(null, nodeToPass);
       }, function(err, retNode) {
-
+        var nodeIdList = _.pluck(retNode, 'id');
         async.map(edges, function(edge, next){
-          var edgeToPass = {
-            id: edge.obj.id.toString(),
-            source: edge.obj.source.toString(),
-            target: edge.obj.target.toString(),
-          };
-          next(null, edgeToPass); 
+
+          if (!_.contains(nodeIdList, edge.obj.target) || !_.contains(nodeIdList, edge.obj.source)){
+            next();
+          } else {
+            var edgeToPass = {
+              id: edge.obj.id.toString(),
+              source: edge.obj.source.toString(),
+              target: edge.obj.target.toString(),
+            };
+            next(null, edgeToPass);
+          }
         }, function(err, retEdge){
+          retEdge = _.compact(retEdge);
+
+          //Clean all the isolated nodes
+          var edgeIdList = _.flatten([_.pluck(retEdge, 'source'), _.pluck(retEdge, 'target')]);
+
+          retNode = _.filter(retNode, function(e){
+            return _.contains(edgeIdList, e.id);
+          });
+
           //finish here
           var data = {
             nodes: retNode,
