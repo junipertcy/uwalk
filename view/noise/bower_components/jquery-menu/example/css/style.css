@@ -1,0 +1,32 @@
+.menu {
+    margin-bottom: 4em;
+}
+
+.menu .menu-item {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+}
+.menu, .menu .submenu {
+    padding: 0;
+}
+.menu .sub-menu {
+    min-width: 100%;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: auto;
+}
+
+.menu .sub-menu {
+    display: none;
+}
+
+.menu .sub-menu .sub-menu {
+    left: 100%;
+    top: 0;
+}
+
+.menu .sub-menu .menu-item {
+    display: block;
+}
