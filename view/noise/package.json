@@ -1,14 +1,15 @@
 {
   "name": "noise",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.0.0",
+  "description": "dssg front-end",
   "main": "index.js",
+  "dependencies": {
+    "linkurious": "^1.1.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "linkurious": "^1.1.0"
-  }
+  "author": "Tzu-Chi Yen <junipertcy@gmail.com>",
+  "license": "MIT"
 }
