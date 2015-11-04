@@ -1,0 +1,48 @@
+{
+  "name": "urban-walkability",
+  "description": "The urban-walkability project",
+  "main": "main.js",
+  "authors": [
+    "Tzu-Chi Yen <junipertcy@gmail.com>",
+    "Hsun-Ping Hsieh <sandoh714@gmail.com>",
+    "Cheng-Te Li <ctli@citi.sinica.edu.tw>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "construction",
+    "requests",
+    "interactive",
+    "visualization",
+    "urban",
+    "computing",
+    "open",
+    "data",
+    "regional",
+    "analysis",
+    "clustering",
+    "regression"
+  ],
+  "homepage": "https://github.com/junipertcy/dssg",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "async": "~1.5.0",
+    "bootstrap": "~3.3.5",
+    "cartodb.js": "~3.15.8",
+    "highcharts": "~4.1.9",
+    "jcarousel": "~0.3.4",
+    "jquery": "~2.1.4",
+    "jquery-menu": "~1.0.0",
+    "knockout": "~3.3.0",
+    "Leaflet.MakiMarkers": "~1.0.1",
+    "mapbox.js": "~2.2.3",
+    "sigma.js": "*"
+  }
+}
