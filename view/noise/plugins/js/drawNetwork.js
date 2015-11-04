@@ -4,7 +4,7 @@ var drawNetwork = function(lat, lng) {
 
   $.ajax({
     type: 'GET',
-    url: 'http://uwalk-env.elasticbeanstalk.com/networks',
+    url: 'http://uwalk.elasticbeanstalk.com/networks',
     data: {
       lng: -73.8758,
       lat: 40.6941
