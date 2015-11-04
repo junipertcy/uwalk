@@ -1,5 +1,5 @@
 var routes = require('require-directory')(module);
-var public_dir = './view/noise/';
+var public_dir = 'view/noise/';
 
 module.exports = function(app) {
   Object.keys(routes).forEach(function(key) {
