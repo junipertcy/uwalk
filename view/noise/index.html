@@ -187,7 +187,7 @@
 
                 var loc = latlng.toString().split(',').map(Number);
                 //$.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(data){
-                $.get('http://uwalk-env.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
+                $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
                   drawMap(loc[0], loc[1])
                   drawNetwork(loc[0], loc[1]);
 
