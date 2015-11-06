@@ -8,12 +8,11 @@ module.exports = function(app) {
     }
   });
 
+  app.get('/noise', function(req, res) {
+    res.sendfile(public_dir + 'index.html');
+  });
+
   app.get('/', function(req, res) {
     res.json({ 'Urban Walkability System Version': '0.0.1' });
   });
-
-  app.get('/noise', function(req, res) {
-    res.sendfile(public_dir + 'index.html');
-});
-
 };
