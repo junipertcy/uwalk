@@ -1,6 +1,6 @@
 {
   "name": "jquery-menu",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "authors": [
     {
       "name": "Andrea Stronati",
@@ -17,7 +17,6 @@
     "jquery": "2.1.4"
   },
   "ignore": [
-    "examples",
     "tests",
     ".gitignore",
     "Gruntfile.js",

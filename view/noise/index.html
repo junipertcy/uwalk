@@ -137,7 +137,7 @@
                 var loc = latlng.toString().split(',').map(Number);
                 //$.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(data){
                 $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
-                  drawMap(loc[0], loc[1])
+                  drawMap(loc[0], loc[1]);
                   drawNetwork(loc[0], loc[1]);
 
                   var picUrl = '';
@@ -250,7 +250,7 @@
 
 
 
-    function showLayer(layerToShow) {
+    var showLayer = function (layerToShow) {
       var layer = layerInit.getSubLayers();
       var season;
       //turn off all layer
@@ -313,7 +313,7 @@
         break;
       }
       return season;
-    }
+    };
 
     window.onload = main(0);
 

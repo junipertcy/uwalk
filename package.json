@@ -51,7 +51,23 @@
       "Network",
       "Fscategory",
       "Edge",
-      "Node"
+      "Node",
+      "custom_infowindow_headers",
+      "custom_infowindow_scripts",
+      "custom_infowindow_picHeaders",
+      "custom_infowindow_picEndings",
+      "custom_infowindow_checkin",
+      "custom_infowindow_network",
+      "custom_infowindow_transitions",
+      "custom_infowindow_endings",
+      "drawNetwork",
+      "drawMap",
+      "toPercent",
+      "$",
+      "draw_chart",
+      "google",
+      "L"
+
     ]
   },
   "description": "The urban-walkability project",
