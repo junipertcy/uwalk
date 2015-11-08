@@ -42,7 +42,6 @@
     "knockout": "~3.3.0",
     "Leaflet.MakiMarkers": "~1.0.1",
     "mapbox.js": "~2.2.3",
-    "sigma.js": "*",
-    "font-awesome": "Font-Awesome#~4.4.0"
+    "sigma.js": "*"
   }
 }

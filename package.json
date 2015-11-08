@@ -49,7 +49,9 @@
       "cartodb",
       "Checkin",
       "Network",
-      "Fscategory"
+      "Fscategory",
+      "Edge",
+      "Node"
     ]
   },
   "description": "The urban-walkability project",

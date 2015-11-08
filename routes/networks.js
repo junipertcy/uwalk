@@ -16,7 +16,7 @@ app.get('/', function(req, res){
   var loc = [lng, lat];
 
   Node.geoNear(loc, {
-    maxDistance: 1, //meters
+    maxDistance: 10, //meters
     spherical: true,
     limit: 1000
   }, function(err, nodes){
@@ -33,7 +33,7 @@ app.get('/', function(req, res){
       });
     }
     Edge.geoNear(loc, {
-      maxDistance: 1, //meters
+      maxDistance: 10, //meters
       spherical: true,
       limit: 1000
     }, function(err, edges){
