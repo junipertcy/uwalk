@@ -34,6 +34,7 @@
     "commit": "14970658c7eea3dfb4de8ebf52fcd6bbd0686c92"
   },
   "_source": "git://github.com/the-software-factory/jquery-menu.git",
-  "_target": "0.1.0",
-  "_originalSource": "jquery-menu"
+  "_target": "~0.1.0",
+  "_originalSource": "jquery-menu",
+  "_direct": true
 }
