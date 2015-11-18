@@ -13,6 +13,6 @@ module.exports = function(app) {
   });
 
   app.get('/', function(req, res) {
-    res.json({ 'Urban Walkability System Version': '0.0.1' });
+    res.json({ 'Urban Walkability System Version': '1.0.0' });
   });
 };

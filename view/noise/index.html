@@ -104,6 +104,24 @@
           infowindow: true
         })
         .done(function(vis, layers) {
+          var map = vis.getNativeMap();
+          // It wasn't recognizing this without wrapping it in jquery ready
+          $(document).ready(function() {
+            $('#btnGeocode').click(function(){
+              var addrs = $('#txtGeocode').val();
+              console.log(map);
+              console.log(typeof map);
+              geocodeAddress(addrs, map);
+            });
+            $(document).keydown(function(e) {
+              if (e.keyCode==13) { // return key
+                  $('#btnGeocode').trigger('click');
+                }
+            });
+          });
+
+
+
           //data layer
           layerInit = layers[1];
 
@@ -180,14 +198,6 @@
                       });
                     }, 5000);
                   }
-
-
-
-
-
-
-
-
                 });
               });
             });
@@ -199,56 +209,34 @@
         });
       }
 
-
 // BEGIN GEOCODING
-  var geocoder;
-  geocoder = new google.maps.Geocoder();
+  var marker = L.marker();
   var firstRun = true;
-  var markerGroup;
-  function geoCode(address){
-    geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-      var lat = results[0].geometry.location.lat();
-      var lng = results[0].geometry.location.lng();
-      var latLng = new L.LatLng(lat, lng);
-      console.log(lat, lng);
-      cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/ff9fb71c-74d6-11e5-95f0-0e787de82d45/viz.json',{
-        tiles_loader: true,
-        center_lat: lat,
-        center_lon: lng,
-        zoom: 15,
-        infowindow: true
-      }).done();
+  function geocodeAddress(address, resultsMap){
+    // [Add functionality: if it's too far away from NYC, don't show.]
+    var geocoder = new google.maps.Geocoder();
 
-      //map.panTo(latLng);
-      // Set the zoom to whatever you want.
-      // the higher the number the greater the zoom.
-      //map.setZoom(15);
-
-      var marker = L.marker([lat, lng]);
-      markerGroup = L.layerGroup([marker]);
-//      map.addLayer(markerGroup);
-      firstRun = false;
-
+    geocoder.geocode({
+      'address': address
+    }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var lat = results[0].geometry.location.lat();
+        var lng = results[0].geometry.location.lng();
+        //Show: the place you requested is at ...
+        console.log(lat, lng);
+        if (firstRun === true) {
+          marker = L.marker([lat, lng]).addTo(resultsMap);
         } else {
+          var newLatLng = new L.LatLng(lat, lng);
+          marker.setLatLng(newLatLng);
         }
-      });
+        //resultsMap.setView([lat, lng], 14);
+        firstRun = false;
+      } else {
+        alert('Geocode was not successful due to the following reason: ', status);
+      }
+    });
   }
-  // It wasn't recognizing this without wrapping it in jquery ready
-  $(document).ready(function() {
-    $('#btnGeocode').click(function(){
-      var addrs = $('#txtGeocode').val();
-      geoCode(addrs);
-    });
-    $(document).keydown(function(e) {
-      if (e.keyCode==13) { // return key
-          $('#btnGeocode').trigger('click');
-        }
-    });
-  });
-
-
-
 
     var showLayer = function (layerToShow) {
       var layer = layerInit.getSubLayers();
@@ -260,56 +248,56 @@
 
       switch (layerToShow) {
         case 'Z':
-          layer[0].show();
+          layer[0].setSQL('SELECT sum FROM z_5').show();
         break;
         case 'A0':
           season = 0;
-          layer[0].show();
+          layer[0].setSQL('SELECT sumall FROM spring').show();
           break;
         case 'A1':
           season = 0;
           console.log(layer[0]);
-          layer[0].setSQL('SELECT * FROM z_5').show();
+          layer[0].setSQL('SELECT sumweekdays FROM spring').show();
           break;
         case 'A2':
           season = 0;
-          layer[0].show();
+          layer[0].setSQL('SELECT sumweekends FROM spring').show();
           break;
         case 'B0':
           season = 1;
-          layer[1].show();
+          layer[1].setSQL('SELECT sumall FROM summer').show();
           break;
         case 'B1':
           season = 1;
-          layer[1].show();
+          layer[1].setSQL('SELECT sumweekdays FROM summer').show();
           break;
         case 'B2':
           season = 1;
-          layer[1].show();
+          layer[1].setSQL('SELECT sumweekends FROM summer').show();
           break;
         case 'C0':
           season = 2;
-          layer[2].show();
+          layer[2].setSQL('SELECT sumall FROM fall').show();
           break;
         case 'C1':
           season = 2;
-          layer[2].show();
+          layer[2].setSQL('SELECT sumweekdays FROM fall').show();
           break;
         case 'C2':
           season = 2;
-          layer[2].show();
+          layer[2].setSQL('SELECT sumweekends FROM fall').show();
           break;
         case 'D0':
           season = 3;
-          layer[3].show();
+          layer[3].setSQL('SELECT sumall FROM winter').show();
           break;
         case 'D1':
           season = 3;
-          layer[3].show();
+          layer[3].setSQL('SELECT sumweekdays FROM winter').show();
           break;
         case 'D2':
           season = 3;
-          layer[3].show();
+          layer[3].setSQL('SELECT sumweekends FROM winter').show();
         break;
       }
       return season;
