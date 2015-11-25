@@ -1,15 +1,11 @@
 var mongoose = require('mongoose');
 
 var schema = module.exports = new mongoose.Schema({
-  index: String,
-  photoName: String,
   imgurl: String,
-  owner: String,
-  dataTaken: Date,
-  timeTaken: String,
-  dataUpload: Date,
-  lat: Number,
-  lng: Number
+  loc: {
+    type: 'Point',
+    coordinates: { type: [Number], index: '2d'}
+  }
 });
 
 schema.pre('save', function(next) {

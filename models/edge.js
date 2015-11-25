@@ -10,9 +10,9 @@ var schema = module.exports = new mongoose.Schema({
     type: String,
     coordinates: Array
   },
-  center: Array,
+  center: { type: [Number], index: '2d'},
 	source: { type: String, required: true },
-	target: { type: String, required: true } 
+	target: { type: String, required: true }
  });
 
 schema.pre('save', function(next) {

@@ -16,10 +16,11 @@ app.get('/', function(req, res){
   var loc = [lng, lat];
 
   Node.geoNear(loc, {
-    maxDistance: 10, //meters
-    spherical: true,
-    limit: 1000
+    maxDistance: 1000, //meters
+    spherical: false,
+    limit: 100
   }, function(err, nodes){
+    console.log(nodes);
     if (!nodes){
       return res.status(400).json({
         errcode: 1001,
@@ -33,9 +34,9 @@ app.get('/', function(req, res){
       });
     }
     Edge.geoNear(loc, {
-      maxDistance: 10, //meters
-      spherical: true,
-      limit: 1000
+      maxDistance: 1000, //meters
+      spherical: false,
+      limit: 100
     }, function(err, edges){
       if (!edges){
         return res.status(400).json({
@@ -91,8 +92,10 @@ app.get('/', function(req, res){
 
           //finish here
           var data = {
-            nodes: retNode,
-            edges: retEdge
+            numNodes: retNode.length,
+            numEdges: retEdge.length
+            //nodes: retNode,
+            //edges: retEdge
           };
 
           return res.status(200).json(data);
