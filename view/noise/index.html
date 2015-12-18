@@ -28,72 +28,14 @@
     <link href="plugins/css/map.css" rel="stylesheet">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
-  <!-- for mapbox infowindow --
-  <style>
-    #mapbox { position:absolute; top:0; bottom:0; width:100%; }
-  </style>
-  <!-- -->
-
   </head>
 
 
   <body>
   <!-- for mapbox infowindow -->
 
-<script src='node_modules/linkurious/src/sigma.core.js'></script>
-<script src='node_modules/linkurious/src/conrad.js'></script>
-<script src='node_modules/linkurious/src/utils/sigma.utils.js'></script>
-<script src='node_modules/linkurious/src/utils/sigma.polyfills.js'></script>
-<script src='node_modules/linkurious/src/sigma.settings.js'></script>
-<script src='node_modules/linkurious/src/classes/sigma.classes.dispatcher.js'></script>
-<script src='node_modules/linkurious/src/classes/sigma.classes.configurable.js'></script>
-<script src='node_modules/linkurious/src/classes/sigma.classes.graph.js'></script>
-<script src='node_modules/linkurious/src/classes/sigma.classes.camera.js'></script>
-<script src='node_modules/linkurious/src/classes/sigma.classes.quad.js'></script>
-<script src='node_modules/linkurious/src/captors/sigma.captors.mouse.js'></script>
-<script src='node_modules/linkurious/src/captors/sigma.captors.touch.js'></script>
-<script src='node_modules/linkurious/src/renderers/sigma.renderers.canvas.js'></script>
-<script src='node_modules/linkurious/src/renderers/sigma.renderers.webgl.js'></script>
-<script src='node_modules/linkurious/src/renderers/sigma.renderers.svg.js'></script>
-<script src='node_modules/linkurious/src/renderers/sigma.renderers.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/webgl/sigma.webgl.nodes.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/webgl/sigma.webgl.nodes.fast.js'></script>
-<script src='node_modules/linkurious/src/renderers/webgl/sigma.webgl.edges.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/webgl/sigma.webgl.edges.fast.js'></script>
-<script src='node_modules/linkurious/src/renderers/webgl/sigma.webgl.edges.arrow.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.labels.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.hovers.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.nodes.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edges.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edges.curve.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edges.arrow.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edgehovers.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edgehovers.curve.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js'></script>
-<script src='node_modules/linkurious/src/renderers/canvas/sigma.canvas.extremities.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.utils.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.nodes.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.edges.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.edges.curve.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.labels.def.js'></script>
-<script src='node_modules/linkurious/src/renderers/svg/sigma.svg.hovers.def.js'></script>
-<script src='node_modules/linkurious/src/middlewares/sigma.middlewares.rescale.js'></script>
-<script src='node_modules/linkurious/src/middlewares/sigma.middlewares.copy.js'></script>
-<script src='node_modules/linkurious/src/misc/sigma.misc.animation.js'></script>
-<script src='node_modules/linkurious/src/misc/sigma.misc.bindEvents.js'></script>
-<script src='node_modules/linkurious/src/misc/sigma.misc.bindDOMEvents.js'></script>
-<script src='node_modules/linkurious/src/misc/sigma.misc.drawHovers.js'></script>
-
-
-  <script src='bower_components/jquery/dist/jquery.min.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.plugins.animate/sigma.plugins.animate.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.layout.forceLink/worker.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.layout.forceLink/supervisor.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.layout.forceAtlas2/worker.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.layout.forceAtlas2/supervisor.js'></script>
-  <script src='node_modules/linkurious/plugins/sigma.statistics.louvain/sigma.statistics.louvain.js'></script>
+  <script src='node_modules/linkurious/dist/sigma.min.js'></script>
+  <script src='node_modules/linkurious/dist/plugins.min.js'></script>
 
   <!-- -->
 
@@ -106,7 +48,6 @@
     <script src="bower_components/highcharts/highcharts-more.js"></script>
     <script src="bower_components/highcharts/modules/exporting.js"></script>
 
-
     <script src="plugins/js/tools.js"></script>
     <script src="plugins/js/customInfowindow.js"></script>
     <script src="plugins/js/drawChart.js"></script>
@@ -114,24 +55,8 @@
     <script src="plugins/js/drawNetwork.js"></script>
     <script src="bower_components/jquery-menu/src/js/jquery.menu.js"></script>
 
-
-
-
-
-
     <script>
       'use strict';
-      // function reset(){
-      //   cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/30f22032-23cb-11e5-ad81-0e43f3deba5a/viz.json', {
-      //     tiles_loader: true,
-      //     center_lat: 40.6941,
-      //     center_lon: -73.8758,
-      //     zoom: 11,
-      //     infowindow: false
-      //   }).done(function(vis, layers){
-
-      //   });
-      // }
       var layerInit, custom_infowindow, sql;
 
       function main(season) {
@@ -278,7 +203,6 @@
 
       var marker = L.marker([lat, lng]);
       markerGroup = L.layerGroup([marker]);
-//      map.addLayer(markerGroup);
       firstRun = false;
 
         } else {
