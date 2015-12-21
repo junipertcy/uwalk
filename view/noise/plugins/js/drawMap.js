@@ -17,7 +17,7 @@ var drawMap = function(lat, lng) {
 
       $.ajax({
         type: 'GET',
-        url: 'http://uwalk-env.elasticbeanstalk.com/checkins',
+        url: 'http://uwalk.elasticbeanstalk.com/checkins',
         data: {
           lng: lng.toString(),
           lat: lat.toString()
