@@ -1,0 +1,66 @@
+body {
+
+}
+
+.parent { /* home */
+  top:310px;
+  left:10px;
+  position:absolute;
+  display:block;
+  width:0;
+  height:0px;
+  background-color:White;
+  z-index:20;
+  -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+  -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+}
+
+.flickr {
+  width:95%;
+  height:95%;
+  position:absolute;
+  background-color:transparent;
+  color:#0063dc;
+  text-align:center;
+  line-height:25px;
+  top:25%;
+  left:25%;
+  transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .2s;
+}
+.foursquare {
+  width:95%;
+  height:95%;
+  background-color:transparent;
+  position:absolute;
+  color:#f94877;
+  text-align:center;
+  line-height:25px;
+  top:25%;
+  left:25%;
+  transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .4s;
+}
+  .sn {
+  width:95%;
+  height:95%;
+  background-color:transparent;
+  position:absolute;
+  color:#589442;
+  text-align:center;
+  line-height:25px;
+  top:25%;
+  left:25%;
+  transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .6s;
+}
+.mask2 {
+  top: 0px;
+  left: 1px;
+  width: 42px;
+  height: 42px;
+  background: White;
+  position:absolute;
+  z-index:31;
+  color:#35465c;
+  text-align:center;
+  cursor:pointer;
+}

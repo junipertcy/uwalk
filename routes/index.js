@@ -1,5 +1,5 @@
 var routes = require('require-directory')(module);
-var public_dir = './view/noise/';
+var public_dir = 'view/noise/';
 
 module.exports = function(app) {
   Object.keys(routes).forEach(function(key) {
@@ -8,12 +8,11 @@ module.exports = function(app) {
     }
   });
 
-  app.get('/', function(req, res) {
-    res.json({ 'Urban Walkability System Version': '0.0.1' });
-  });
-
   app.get('/noise', function(req, res) {
     res.sendfile(public_dir + 'index.html');
-});
+  });
 
+  app.get('/', function(req, res) {
+    res.json({ 'Urban Walkability System Version': '1.0.0' });
+  });
 };

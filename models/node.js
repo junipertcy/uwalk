@@ -10,7 +10,7 @@ var schema = module.exports = new mongoose.Schema({
     type: String,
     coordinates: Array
   },
-  center: Array,
+  center: { type: [Number], index: '2d'},
 	id: { type: String, required: true },
   size: Number, //visits
   label: String,

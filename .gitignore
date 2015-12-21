@@ -30,12 +30,13 @@ build/Release
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
 bower_components
-view/noise/bower_components
-view/noise/node_modules
+
 
 config/*
 !config/_sample.json
 !view/noise/bower_components/jquery-menu
+!view/noise/bower_components/font-awesome
+!view/noise/node_modules/linkurious/src/classes/*
 !view/noise/node_modules/linkurious/src/classes/sigma.classes.graph.js
 
 # Data.Taipei Hackathon files

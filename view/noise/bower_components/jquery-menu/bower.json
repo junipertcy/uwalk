@@ -1,0 +1,29 @@
+{
+  "name": "jquery-menu",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Andrea Stronati",
+      "email": "astronati@vendini.com"
+    }
+  ],
+  "description": "A menu with the default configuration, disabled items and nested menus.",
+  "keywords": [
+    "menu",
+    "jquery menu"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "2.1.4"
+  },
+  "ignore": [
+    "tests",
+    ".gitignore",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "main": [
+    "dist/jquery.menu.min.js",
+    "src/jquery.menu.js"
+  ]
+}
