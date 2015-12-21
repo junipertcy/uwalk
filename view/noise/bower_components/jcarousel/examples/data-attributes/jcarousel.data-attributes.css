@@ -69,11 +69,13 @@
 }
 
 .jcarousel-control-prev {
-    left: -50px;
+    left: 10px;
+    top: 135px;
 }
 
 .jcarousel-control-next {
-    right: -50px;
+    right: 10px;
+    top: 135px;
 }
 
 .jcarousel-control-prev:hover span,

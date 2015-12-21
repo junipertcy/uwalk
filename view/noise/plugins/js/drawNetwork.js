@@ -52,17 +52,6 @@ var drawNetwork = function(lat, lng) {
       });
     }
 
-    for (i = 0; i < data.edges.length; i++){
-      g.edges.push({
-        type: 'arrow',
-        id: data.edges[i].id,
-        source: data.edges[i].source,
-        target: data.edges[i].target,
-        size: 10,
-        color: '#ccc'
-      });
-    }
-
     sigma.classes.graph.addMethod('neighbors', function(nodeId) {
       var k,
           neighbors = {},
@@ -75,14 +64,30 @@ var drawNetwork = function(lat, lng) {
     // Instanciate sigma:
     s = new sigma({
       graph: g,
-      container: 'containerNet',
-      type: 'canvas',
+      renderer: {
+        container: 'containerNet',
+        type: 'canvas',
+      },
       settings: {
         edgeLabelSize: 'proportional',
         edgeLabelThreshold: 5,
         minEdgeSize: 5
       }
     });
+
+    for (i = 0; i < data.edges.length; i++){
+      s.graph.addEdge({
+        type: 'arrow',
+        id: data.edges[i].id,
+        source: data.edges[i].source,
+        target: data.edges[i].target,
+        size: 10,
+        color: '#ccc'
+      });
+    }
+
+    s.refresh();
+
 
     // Clustering:
     var louvainInstance;

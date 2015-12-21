@@ -36,8 +36,7 @@ config/*
 !config/_sample.json
 !view/noise/bower_components/jquery-menu
 !view/noise/bower_components/font-awesome
-!view/noise/node_modules/linkurious/src/classes/*
-!view/noise/node_modules/linkurious/src/classes/sigma.classes.graph.js
+!view/noise/node_modules/linkurious/dist/*
 
 # Data.Taipei Hackathon files
 dataTaipeiHackathon/*

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var schema = module.exports = new mongoose.Schema({
   imgurl: String,
   loc: {
-    type: 'Point',
+    type: String,
     coordinates: { type: [Number], index: '2d'}
   }
 });
