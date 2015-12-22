@@ -26,8 +26,7 @@ var custom_infowindow_scripts = [
   //Container switcher
   '<script src="plugins/js/koTools.js">','</scr'+'ipt>',
   //Network container
-  '<script src="node_modules/linkurious/src/sigma.core.js">','</scr'+'ipt>',
-  '<script src="node_modules/linkurious/src/conrad.js">','</scr'+'ipt>'].join('');
+  '<script src="node_modules/pleasejs/dist/Please.js">','</scr'+'ipt>'].join('');
 
 //div-elements
 var custom_infowindow_picHeaders = [

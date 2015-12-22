@@ -4,7 +4,8 @@
   "description": "dssg front-end",
   "main": "index.js",
   "dependencies": {
-    "linkurious": "^1.1.0"
+    "linkurious": "^1.1.0",
+    "pleasejs": "^0.4.2"
   },
   "devDependencies": {},
   "scripts": {

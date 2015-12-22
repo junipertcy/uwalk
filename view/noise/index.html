@@ -107,8 +107,7 @@
           //   i.hide();
           // });
 
-          // subLayer[season].show();
-
+          subLayer[season].show();
 
           layerInit.on('featureClick', function(e, latlng, pos, data) {
             //use sql to get some part of data
@@ -163,8 +162,6 @@
                     console.log(gridSeason);
                     console.log(season);
                     draw_chart(gridYear, gridSeason, season);
-
-                    console.log('Async draw_chart fired!');
                     setTimeout(function(){
                       subLayer[season].infowindow.set({
                         template: custom_infowindow,
@@ -193,7 +190,11 @@
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({
-      'address': address
+      'address': address,
+      'componentRestrictions': {
+        country: 'US',
+        locality: 'New York City'
+      }
     }, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         var lat = results[0].geometry.location.lat();

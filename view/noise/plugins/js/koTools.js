@@ -17,7 +17,7 @@ $("#snTr").on("click",function(){
 $("#foursquareTr").on("click",function(){
 	$("#containerPic").css("display", "none");
 	$("#containerNet").css("display", "none");
-	$("#containerCheckin").css("display", "block", "width", "400px", "height", "300px");
+	$("#containerCheckin").css("display", "block", "width", "400", "height", "300px");
 	console.log("switch2");
 });
 

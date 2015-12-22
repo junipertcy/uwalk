@@ -18,28 +18,6 @@ var drawNetwork = function(lat, lng) {
           nodes: [],
           edges: []
         };
-    var colors = [
-        '#D6C1B0',
-        '#9DDD5A',
-        '#D06D34',
-        '#D28FD8',
-        '#5D8556',
-        '#71D4C6',
-        '#CDCF79',
-        '#D8A836',
-        '#5E8084',
-        '#738ECD',
-        '#D36565',
-        '#61DC7B',
-        '#9B7168',
-        '#97C4DE',
-        '#A57E42',
-        '#D5DA41',
-        '#D06B97',
-        '#917097',
-        '#689534',
-        '#90D59B'
-      ];
 
     for (i = 0; i < data.nodes.length; i++){
       g.nodes.push({
@@ -77,7 +55,7 @@ var drawNetwork = function(lat, lng) {
 
     for (i = 0; i < data.edges.length; i++){
       s.graph.addEdge({
-        type: 'arrow',
+        type: 'curvedArrow',
         id: data.edges[i].id,
         source: data.edges[i].source,
         target: data.edges[i].target,
@@ -89,21 +67,48 @@ var drawNetwork = function(lat, lng) {
     s.refresh();
 
 
-    // Clustering:
-    var louvainInstance;
-    // Detect communities using the Louvain algorithm:
-    louvainInstance = sigma.plugins.louvain(s.graph, {
-      setter: function(communityId) { this.my_community = communityId; }
+    // If numEdges < 50, no need to do clustering, as a known bug of linkurious.js in
+    // the pull request list
+    var nbPartitions = 1;
+    if (s.graph.edges().length >= 100) {
+      // Clustering:
+      var louvainInstance;
+
+      // Detect communities using the Louvain algorithm:
+      louvainInstance = sigma.plugins.louvain(s.graph, {
+        setter: function(communityId) {
+          this.my_community = communityId;
+        }
+      });
+
+      var partitions = louvainInstance.getPartitions();
+
+      //Get number of partitions and make them colored
+      nbPartitions = louvainInstance.countPartitions(partitions);
+    }
+
+    //Create colors
+    var colors = Please.make_color({
+      colors_returned: nbPartitions,
+      saturation: 0.5,
+      golden: true
     });
-    var nbLevels = louvainInstance.countLevels();
-    var partitions = louvainInstance.getPartitions();
-    var nbPartitions = louvainInstance.countPartitions(partitions);
 
     // Color nodes based on their community
-    s.graph.nodes().forEach(function(node) {
-      node.color = colors[node.my_community];
+    s.graph.nodes().forEach(function(n) {
+      n.color = colors[n.my_community || 0];
     });
-    s.refresh({skipIndexation: true});
+
+    s.graph.edges().forEach(function(e) {
+      e.color = '#bfbfbf';
+    });
+
+
+    s.refresh({
+      skipIndexation: true
+    });
+
+
 
     s.bind('clickNode', function(e) {
       var nodeId = e.data.node.id;
@@ -148,7 +153,7 @@ var drawNetwork = function(lat, lng) {
 
     setTimeout(function() {
       s.stopForceAtlas2();
-    }, 2000);
+    }, 4000);
 
   });
 

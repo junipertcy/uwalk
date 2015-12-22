@@ -8,38 +8,34 @@ var drawMap = function(lat, lng) {
     var containerCheckin = L.mapbox.map('containerCheckin', 'mapbox.emerald')
         .setView([lat, lng], 15);
 
-    // // Credit Foursquare for their wonderful data
-    // containerCheckin.attributionControl
-    //     .addAttribution('<a href="https://foursquare.com/">Places data from Foursquare</a>');
-
     // Keep our place markers organized in a nice group.
     var foursquarePlaces = L.layerGroup().addTo(containerCheckin);
 
-      $.ajax({
-        type: 'GET',
-        url: 'http://uwalk.elasticbeanstalk.com/checkins',
-        data: {
-          lng: lng.toString(),
-          lat: lat.toString()
-        }
-      }).done(function(data){
+    $.ajax({
+      type: 'GET',
+      url: 'http://uwalk.elasticbeanstalk.com/checkins',
+      data: {
+        lng: lng.toString(),
+        lat: lat.toString()
+      }
+    }).done(function(data){
 
-        // Transform each venue data into a marker on the map.
-        for (var i = 0; i < data.data.length; i++) {
-          var venue = data.data[i];
-          var latlng = L.latLng(venue.obj.location.lat, venue.obj.location.lng);
-          var marker = L.marker(latlng, {
-              icon: L.icon({
-                'iconUrl': venue.icon,
-                'iconSize': [32, 32],
-                'shadowSize': [32, 50],
-                'marker-size': 'large'
-              })
+      // Transform each venue data into a marker on the map.
+      for (var i = 0; i < data.data.length; i++) {
+        var venue = data.data[i];
+        var latlng = L.latLng(venue.obj.location.lat, venue.obj.location.lng);
+        var marker = L.marker(latlng, {
+            icon: L.icon({
+              'iconUrl': venue.icon,
+              'iconSize': [32, 32],
+              'shadowSize': [32, 50],
+              'marker-size': 'large'
             })
-          .bindPopup('<strong><a href="https://foursquare.com/v/' + venue.obj.categories.id + '">' +
-            venue.obj.location.name + '</a></strong>')
-            .addTo(foursquarePlaces);
-        }
-      });
+          })
+        .bindPopup('<strong><a href="https://foursquare.com/v/' + venue.obj.categories.id + '">' +
+          venue.obj.location.name + '</a></strong>')
+          .addTo(foursquarePlaces);
+      }
+    });
   });
 }
