@@ -6,8 +6,8 @@ var drawNetwork = function(lat, lng) {
     type: 'GET',
     url: 'http://uwalk.elasticbeanstalk.com/networks',
     data: {
-      lng: -73.8758,
-      lat: 40.6941
+      lng: lng.toString(),
+      lat: lat.toString()
     }
   }).done(function(data){
     console.log('network fetched is....');

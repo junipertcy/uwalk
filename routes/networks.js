@@ -93,9 +93,9 @@ app.get('/', function(req, res){
           //finish here
           var data = {
             numNodes: retNode.length,
-            numEdges: retEdge.length
-            //nodes: retNode,
-            //edges: retEdge
+            numEdges: retEdge.length,
+            nodes: retNode,
+            edges: retEdge
           };
 
           return res.status(200).json(data);
