@@ -21,12 +21,8 @@ var custom_infowindow_scripts = [
   '<script src="bower_components/jcarousel/examples/data-attributes/jcarousel.data-attributes.js">','</scr'+'ipt>',
   '<script src="bower_components/knockout/dist/knockout.js">','</scr'+'ipt>',
   //Checkin container
-  '<script src="bower_components/mapbox.js/mapbox.js">', '</scr'+'ipt>',
-  '<link href="bower_components/mapbox.js/mapbox.css" rel="stylesheet" />',
   //Container switcher
-  '<script src="plugins/js/koTools.js">','</scr'+'ipt>',
-  //Network container
-  '<script src="node_modules/pleasejs/dist/Please.js">','</scr'+'ipt>'].join('');
+  '<script src="plugins/js/koTools.js">','</scr'+'ipt>'].join('');
 
 //div-elements
 var custom_infowindow_picHeaders = [

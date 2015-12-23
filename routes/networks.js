@@ -90,10 +90,7 @@ app.get('/', function(req, res){
             return _.contains(edgeIdList, e.id);
           });
 
-          //finish here
           var data = {
-            numNodes: retNode.length,
-            numEdges: retEdge.length,
             nodes: retNode,
             edges: retEdge
           };
