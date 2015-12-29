@@ -32,16 +32,11 @@
   <body>
   <!-- for mapbox infowindow -->
 
-  <script src='node_modules/linkurious/dist/sigma.min.js'></script>
-  <script src='node_modules/linkurious/dist/plugins.min.js'></script>
-  <script src="node_modules/pleasejs/dist/Please.js"></script>
-
-  <!-- -->
-
-    <div id="map">
-
+    <script src='node_modules/linkurious/dist/sigma.min.js'></script>
+    <script src='node_modules/linkurious/dist/plugins.min.js'></script>
+    <script src="node_modules/pleasejs/dist/Please.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/cartodb.js/cartodb.js"></script>
+    
 
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/highcharts/highcharts-more.js"></script>
@@ -53,6 +48,12 @@
     <script src="plugins/js/drawMap.js"></script>
     <script src="plugins/js/drawNetwork.js"></script>
     <script src="bower_components/jquery-menu/src/js/jquery.menu.js"></script>
+    <script src="bower_components/cartodb.js/cartodb.js"></script>
+  <!-- -->
+
+    <div id="map">
+
+
 
     <script>
       'use strict';
@@ -77,8 +78,7 @@
           center_lon: -73.8758,
           zoom: 11,
           infowindow: true
-        })
-        .done(function(vis, layers) {
+        }).done(function(vis, layers) {
           var map = vis.getNativeMap();
           // It wasn't recognizing this without wrapping it in jquery ready
           $(document).ready(function() {
@@ -95,8 +95,6 @@
             });
           });
 
-
-
           //data layer
           layerInit = layers[1];
 
@@ -107,72 +105,19 @@
           // });
 
           subLayer[season].show();
-
-          layerInit.on('featureClick', function(e, latlng, pos, data) {
-            //use sql to get some part of data
-            //Select yearly data
-            sql = new cartodb.SQL({
-              user: 'junipertcy'
+          var data = {};
+          data.cartodb_id = 0;
+          infoWindow('', [40.733, -73.893], '', data, 1, 'spring', subLayer, function(){
+            subLayer[season].infowindow.set({
+              template: custom_infowindow,
+              sanitizeTemplate: true,
+              width: 400,
+              maxHeight: 700
             });
-
-            sql.execute('SELECT * FROM z_5 WHERE cartodb_id = ' + data.cartodb_id).done(function(yearData){
-              var i = yearData.rows[0];
-              var gridYear = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
-              gridYear = toPercent(gridYear);
-
-              //Select seasonal data
-              sql.execute('SELECT * FROM ' + tableName + ' WHERE cartodb_id = ' + data.cartodb_id).done(function(seasonData){
-                var i = seasonData.rows[0];
-                var gridSeason = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
-                gridSeason = toPercent(gridSeason);
-
-                var loc = latlng.toString().split(',').map(Number);
-                //$.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(data){
-                $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
-                  drawMap(loc[0], loc[1]);
-                  drawNetwork(loc[0], loc[1]);
-
-                  var picUrl = '';
-                  if (dataPic.msg) {
-                    $.each(dataPic.msg, function(i) {
-                      var imgurl = dataPic.msg[i];
-                      var url = '<li style="width: 400px; height: 300px"><img src="' +
-                        imgurl +
-                        '" width="400" height="300" alt=""></li>';
-                      picUrl = picUrl + url;
-                      return i < 10;
-                    });
-
-                    custom_infowindow =
-                      custom_infowindow_headers +
-                      custom_infowindow_scripts +
-
-                      custom_infowindow_picHeaders +
-                      picUrl +
-                      custom_infowindow_picEndings +
-
-                      custom_infowindow_checkin +
-                      custom_infowindow_network +
-
-                      custom_infowindow_transitions +
-                      custom_infowindow_endings;
-
-                    console.log(gridYear);
-                    console.log(gridSeason);
-                    console.log(season);
-                    draw_chart(gridYear, gridSeason, season);
-                    setTimeout(function(){
-                      subLayer[season].infowindow.set({
-                        template: custom_infowindow,
-                        sanitizeTemplate: false,
-                        width: 400,
-                        maxHeight: 700
-                      });
-                    }, 5000);
-                  }
-                });
-              });
-            });
+            layerInit.on('featureClick', function(e, latlng, pos, data) {
+              console.log(subLayer[season].infowindow);
+              infoWindow(e, latlng, pos, data, season, tableName, subLayer);        
+            });            
           });
         })
         .error(function(err){
@@ -185,7 +130,6 @@
   var marker = L.marker();
   var firstRun = true;
   function geocodeAddress(address, resultsMap){
-    // [Add functionality: if it's too far away from NYC, don't show.]
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({
@@ -224,61 +168,128 @@
 
       switch (layerToShow) {
         case 'Z':
-          layer[0].setSQL('SELECT sum FROM z_5').show();
+          console.log(layer[0]);
+          layer[0].setQuery('SELECT sum FROM z_5').show();
         break;
         case 'A0':
           season = 0;
-          layer[0].setSQL('SELECT sumall FROM spring').show();
+          layer[0].setQuery('SELECT sumall FROM spring').show();
           break;
         case 'A1':
           season = 0;
           console.log(layer[0]);
-          layer[0].setSQL('SELECT sumweekdays FROM spring').show();
+          layer[0].setQuery('SELECT sumweekdays FROM spring').show();
           break;
         case 'A2':
           season = 0;
-          layer[0].setSQL('SELECT sumweekends FROM spring').show();
+          layer[0].setQuery('SELECT sumweekends FROM spring').show();
           break;
         case 'B0':
           season = 1;
-          layer[1].setSQL('SELECT sumall FROM summer').show();
+          layer[1].setQuery('SELECT sumall FROM summer').show();
           break;
         case 'B1':
           season = 1;
-          layer[1].setSQL('SELECT sumweekdays FROM summer').show();
+          layer[1].setQuery('SELECT sumweekdays FROM summer').show();
           break;
         case 'B2':
           season = 1;
-          layer[1].setSQL('SELECT sumweekends FROM summer').show();
+          layer[1].setQuery('SELECT sumweekends FROM summer').show();
           break;
         case 'C0':
           season = 2;
-          layer[2].setSQL('SELECT sumall FROM fall').show();
+          layer[2].setQuery('SELECT sumall FROM fall').show();
           break;
         case 'C1':
           season = 2;
-          layer[2].setSQL('SELECT sumweekdays FROM fall').show();
+          layer[2].setQuery('SELECT sumweekdays FROM fall').show();
           break;
         case 'C2':
           season = 2;
-          layer[2].setSQL('SELECT sumweekends FROM fall').show();
+          layer[2].setQuery('SELECT sumweekends FROM fall').show();
           break;
         case 'D0':
           season = 3;
-          layer[3].setSQL('SELECT sumall FROM winter').show();
+          layer[3].setQuery('SELECT sumall FROM winter').show();
           break;
         case 'D1':
           season = 3;
-          layer[3].setSQL('SELECT sumweekdays FROM winter').show();
+          layer[3].setQuery('SELECT sumweekdays FROM winter').show();
           break;
         case 'D2':
           season = 3;
-          layer[3].setSQL('SELECT sumweekends FROM winter').show();
+          layer[3].setQuery('SELECT sumweekends FROM winter').show();
         break;
       }
       return season;
     };
 
+
+    var infoWindow = function (e, latlng, pos, data, season, tableName, subLayer, callback) {
+      //use sql to get some part of data
+      //Select yearly data
+      sql = new cartodb.SQL({
+        user: 'junipertcy'
+      });
+
+      sql.execute('SELECT * FROM z_5 WHERE cartodb_id = ' + data.cartodb_id).done(function(yearData){
+        var i = yearData.rows[0];
+        if (i) {
+          var gridYear = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
+          gridYear = toPercent(gridYear);     
+        }
+        //Select seasonal data
+        sql.execute('SELECT * FROM ' + tableName  + ' WHERE cartodb_id = ' + data.cartodb_id).done(function(seasonData){
+          var i = seasonData.rows[0];
+          if (i) {
+            var gridSeason = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
+            gridSeason = toPercent(gridSeason);
+          }
+
+          var loc = latlng.toString().split(',').map(Number);
+          //$.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(data){
+          $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
+            drawMap(loc[0], loc[1]);
+            drawNetwork(loc[0], loc[1]);
+
+            var picUrl = '';
+            if (dataPic.msg) {
+              $.each(dataPic.msg, function(i) {
+                var imgurl = dataPic.msg[i];
+                var url = '<li style="width: 400px; height: 300px"><img src="' +
+                  imgurl +
+                  '" width="400" height="300" alt=""></li>';
+                picUrl = picUrl + url;
+                return i < 10;
+              });
+
+              custom_infowindow =
+                custom_infowindow_headers +
+                custom_infowindow_scripts +
+
+                custom_infowindow_picHeaders +
+                picUrl +
+                custom_infowindow_picEndings +
+
+                custom_infowindow_checkin +
+                custom_infowindow_network +
+
+                custom_infowindow_transitions +
+                custom_infowindow_endings;
+
+              draw_chart(gridYear, gridSeason, season);
+              // subLayer[season].infowindow.set({
+              //   template: custom_infowindow,
+              //   sanitizeTemplate: true,
+              //   width: 400,
+              //   maxHeight: 700
+              // });
+              return callback(null);
+            }
+          });
+        });
+      });      
+    }
     window.onload = main(0);
 
     </script>
