@@ -1,7 +1,6 @@
 'use strict';
 
 var drawNetwork = function(lat, lng) {
-
   $.ajax({
     type: 'GET',
     url: 'http://uwalk.elasticbeanstalk.com/networks',
@@ -47,6 +46,8 @@ var drawNetwork = function(lat, lng) {
         type: 'canvas',
       },
       settings: {
+        doubleClickEnabled: false,
+        mouseWheelEnabled: false,
         edgeLabelSize: 'proportional',
         edgeLabelThreshold: 5,
         minEdgeSize: 5
@@ -67,10 +68,10 @@ var drawNetwork = function(lat, lng) {
     s.refresh();
 
 
-    // If numEdges < 50, no need to do clustering, as a known bug of linkurious.js in
+    // If numEdges < 75, no need to do clustering, as a known bug of linkurious.js in
     // the pull request list
     var nbPartitions = 1;
-    if (s.graph.edges().length >= 100) {
+    if (s.graph.edges().length >= 75) {
       // Clustering:
       var louvainInstance;
 
@@ -90,7 +91,6 @@ var drawNetwork = function(lat, lng) {
     //Create colors
     var colors = Please.make_color({
       colors_returned: nbPartitions,
-      saturation: 0.5,
       golden: true
     });
 
@@ -108,8 +108,6 @@ var drawNetwork = function(lat, lng) {
       skipIndexation: true
     });
 
-
-
     s.bind('clickNode', function(e) {
       var nodeId = e.data.node.id;
       var toKeep = s.graph.neighbors(nodeId);
@@ -121,7 +119,6 @@ var drawNetwork = function(lat, lng) {
         else
           n.color = '#eee';
       });
-
       s.graph.edges().forEach(function(e) {
         if (toKeep[e.source] && toKeep[e.target])
           e.color = e.originalColor;
@@ -130,7 +127,6 @@ var drawNetwork = function(lat, lng) {
       });
       s.refresh();
     });
-
     s.bind('clickStage', function(e) {
       s.graph.nodes().forEach(function(n) {
         n.color = colors[n.my_community];
@@ -143,18 +139,14 @@ var drawNetwork = function(lat, lng) {
       // Same as in the previous event:
       s.refresh();
     });
-
   //check: https://github.com/Linkurious/linkurious.js/tree/develop/plugins/sigma.layout.forceAtlas2
     var faConfig = {
         worker: true,
         slowDown: 100
     };
     s.startForceAtlas2(faConfig);
-
     setTimeout(function() {
       s.stopForceAtlas2();
-    }, 4000);
-
+    }, 1000);
   });
-
 }

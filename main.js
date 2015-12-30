@@ -10,9 +10,6 @@ app.use(require('morgan')('dev'));
 var bodyParser = require('body-parser');
 app.use(require('express-json-2-csv')());
 
-
-
-
 app.use(require('express-validator')({
   customValidators: {
     isArray: function(value) {
@@ -76,9 +73,6 @@ app.use(function(req, res, next) {
 require('./factories')(app);
 require('./routes')(app);
 require('./models');
-
-
-
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -26,7 +26,7 @@ var custom_infowindow_scripts = [
 
 //div-elements
 var custom_infowindow_picHeaders = [
-  '       <div class="jcarousel" data-jcarousel="true" data-wrap="circular" id="containerPic" style="display:block; width: 400px; height: 300px">',
+  '       <div class="jcarousel" data-jcarousel="true" data-wrap="circular" id="containerPic" style="display:none; width: 400px; height: 300px">',
   '          <ul>'].join('');
 
 //picUrls: OBTAINED FROM AJAX CALLS
@@ -40,7 +40,7 @@ var custom_infowindow_picEndings = [
 var custom_infowindow_checkin =
   '       <div id="containerCheckin" style="display:none; width: 400px; height: 300px"></div>';
 var custom_infowindow_network =
-  '       <div class="jcarousel" id="containerNet" style="display:none; width: 400px; height: 300px"></div>';
+  '       <div class="jcarousel" id="containerNet" style="display:block; width: 400px; height: 300px"></div>';
 
 var custom_infowindow_transitions = [
 //icons for transitions (calling knockout.js here)

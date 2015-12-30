@@ -5,8 +5,7 @@
 var drawMap = function(lat, lng) {
   $.getScript('bower_components/mapbox.js/mapbox.js', function(){
     L.mapbox.accessToken = 'pk.eyJ1IjoianVuaXBlcnRjeSIsImEiOiJvOFg5WFVjIn0.7NDB1oOLpq3A5qO7vLaQSA';
-    var containerCheckin = L.mapbox.map('containerCheckin', 'mapbox.emerald')
-        .setView([lat, lng], 15);
+    var containerCheckin = L.mapbox.map('containerCheckin', 'mapbox.emerald').setView([lat, lng], 15);
 
     // Keep our place markers organized in a nice group.
     var foursquarePlaces = L.layerGroup().addTo(containerCheckin);
@@ -23,18 +22,19 @@ var drawMap = function(lat, lng) {
       // Transform each venue data into a marker on the map.
       for (var i = 0; i < data.data.length; i++) {
         var venue = data.data[i];
+        console.log(venue);
         var latlng = L.latLng(venue.obj.location.lat, venue.obj.location.lng);
-        var marker = L.marker(latlng, {
-            icon: L.icon({
-              'iconUrl': venue.icon,
-              'iconSize': [32, 32],
-              'shadowSize': [32, 50],
-              'marker-size': 'large'
-            })
+
+        L.marker(latlng, {
+          icon: L.icon({
+            'iconUrl': venue.icon,
+            'iconSize': [32, 32],
+            'shadowSize': [32, 50],
+            'marker-size': 'large'
           })
-        .bindPopup('<strong><a href="https://foursquare.com/v/' + venue.obj.categories.id + '">' +
-          venue.obj.location.name + '</a></strong>')
-          .addTo(foursquarePlaces);
+        })
+        .bindPopup('<strong><a href="https://foursquare.com/v/' + venue.obj.categories.id + '">' + venue.obj.location.name + '</a></strong>')
+        .addTo(foursquarePlaces);
       }
     });
   });

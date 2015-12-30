@@ -30,15 +30,11 @@ app.get('/', function(req, res){
       ee.push(e.obj.stats.checkinsCount);
     });
 
-    ee.
-
     checkins =  _.sortBy(checkins, 'obj.stats.checkinsCount');
     console.log(checkins);
-    //console.log(checkins.sort('obj.stats.checkinsCount'));
-    //console.log(checkins);
     async.map(checkins, function(checkin, next){
       Fscategory.find({
-          $text: {
+        $text: {
             $search: checkin.obj.categories[0].name
           }
         },{
@@ -61,14 +57,13 @@ app.get('/', function(req, res){
             console.log(checkin.obj.categories[0].name);
             url = 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/default_bg_32.png';
             checkin.icon = url;
-            next(null,checkin);
+            next(null, checkin);
           } else {
             url = fsc.icon.prefix + 'bg_32' + fsc.icon.suffix;
             checkin.icon = url;
-            next(null,checkin);
+            next(null, checkin);
           }
         }
-
       });
     }, function(err, checkinArray){
       return res.status(200).json({

@@ -11,6 +11,7 @@ $("#snTr").on("click",function(){
 	$("#containerPic").css("display", "none");
 	$("#containerCheckin").css("display", "none");
 	$("#containerNet").css("display", "block", "width", "400px", "height", "300px");
+
 	console.log("switch3");
 });
 
