@@ -3,8 +3,8 @@ branch-defaults:
     environment: uwalk
 global:
   application_name: uwalk
-  default_ec2_keyname: aws-eb-construction
-  default_platform: 64bit Amazon Linux 2015.03 v2.0.1 running Node.js
-  default_region: us-west-1
+  default_ec2_keyname: uwalk-basic.pem
+  default_platform: 64bit Amazon Linux 2015.09 v2.0.5 running Node.js
+  default_region: us-west-1c
   profile: eb-cli
   sc: git
