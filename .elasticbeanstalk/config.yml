@@ -5,6 +5,6 @@ global:
   application_name: uwalk
   default_ec2_keyname: uwalk-basic.pem
   default_platform: 64bit Amazon Linux 2015.09 v2.0.5 running Node.js
-  default_region: us-west-1c
+  default_region: us-west-1
   profile: eb-cli
   sc: git
