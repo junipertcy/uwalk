@@ -1,6 +1,7 @@
 branch-defaults:
   develop:
-    environment: null
+    environment: uwalk
+    group_suffix: null
 global:
   application_name: uwalk
   default_ec2_keyname: uwalk-eb-deploy
