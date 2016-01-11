@@ -52,9 +52,9 @@ app.use(require('express-validator')({
 
 // Add headers
 app.use(function(req, res, next) {
-
+  //console.log(req.headers);
   // Website you wish to allow to connect
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Origin', '*');
 
   // Request methods you wish to allow
   res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT, PATCH, OPTIONS');

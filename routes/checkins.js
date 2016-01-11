@@ -44,7 +44,7 @@ app.get('/', function(req, res){
           $meta: 'textScore'
         }
       }).exec(function(err, fsc){
-        if (!fsc){
+        if (fsc.length === 0){
           console.log('category icon not found, replaced by some default icons...');
           console.log(checkin.obj.categories[0].name);
           url = 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/default_bg_32.png';
@@ -58,7 +58,7 @@ app.get('/', function(req, res){
         }
       });
     }, function(err, checkinArray){
-      console.log(checkinArray);
+      //console.log(checkinArray);
       return res.status(200).json({
         msgcode: 0,
         data: checkinArray

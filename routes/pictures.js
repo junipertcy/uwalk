@@ -4,6 +4,7 @@
 var express = require('express');
 var ul = require('urllib');
 var async = require('async');
+var _ = require('underscore');
 var app = module.exports = express();
 
 app.get('/', function(req, res) {
@@ -19,39 +20,39 @@ app.get('/', function(req, res) {
 
   //The coordinate order is longitude, then latitude.
   Picture.geoNear([lng, lat], {
-    num: 20,
+    num: 25,
     maxDistance: 100, //meters
     spherical: true
-  }, function(err, picture){
-    if (!picture){
+  }, function(err, pictures){
+    if (!pictures){
       return res.status(400).json({
         errcode: 1001,
         errmsg: 'No pictures found in database.'
       });
     }
+    async.map(pictures, function(pic, next) {
+      ul.request(pic.obj.imgurl, function(err, data, info) {
+        if (err || info.status === -1) {
+          next();
+        } else {
+          if (!!info.headers.location) {
 
-    var urlArray = [];
-    async.map(picture, function(pic, next) {
-      ul.request(e.obj.imgurl, function(err, data, info) {
-        if (err) {
-          next(err);
-        }
-        ul.request(info.headers.location, function(err, data, info) {
-          if (err) {
-            next(err);
-          }
-
-          if (info.headers.location === 'https://s.yimg.com/pw/images/en-us/photo_unavailable_l.png') {
-            next();
+            ul.request(info.headers.location, function(err, data, result) {
+              if (result.headers.location === 'https://s.yimg.com/pw/images/en-us/photo_unavailable_l.png') {
+                console.log(1);
+                next();
+              } else {
+                console.log(2);
+                next(null, info.headers.location);
+              }
+            });
           } else {
-            next(null, info.headers.location);
+            next();
           }
-        });
+        }
       });
     }, function(errArray, picArray) {
-      if (errArray) {
-
-      }
+      picArray = _.compact(picArray);
       return res.status(200).json({
         code: 0,
         msg: picArray
