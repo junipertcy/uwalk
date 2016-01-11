@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var lingo = require('lingo');
 
 //statically written!!
-var DB = mongoose.connect('mongodb://' + 'localhost' + '/' + 'research');
-var LogDB = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'construction_log');
+var DB = mongoose.connect('mongodb://uwalk.elasticbeanstalk.com' + '/' + 'research');
+var LogDB = mongoose.createConnection('mongodb://uwalk.elasticbeanstalk.com' + '/' + 'construction_log');
 
 var self = module.exports = {};
 

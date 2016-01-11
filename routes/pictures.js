@@ -23,7 +23,6 @@ app.get('/', function(req, res) {
     maxDistance: 100, //meters
     spherical: true
   }, function(err, picture){
-
     if (!picture){
       return res.status(400).json({
         errcode: 1001,
