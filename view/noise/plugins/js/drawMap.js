@@ -22,7 +22,6 @@ var drawMap = function(lat, lng) {
       // Transform each venue data into a marker on the map.
       for (var i = 0; i < data.data.length; i++) {
         var venue = data.data[i];
-        console.log(venue);
         var latlng = L.latLng(venue.obj.location.lat, venue.obj.location.lng);
 
         L.marker(latlng, {

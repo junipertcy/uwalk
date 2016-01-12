@@ -39,10 +39,8 @@ app.get('/', function(req, res) {
 
             ul.request(info.headers.location, function(err, data, result) {
               if (result.headers.location === 'https://s.yimg.com/pw/images/en-us/photo_unavailable_l.png') {
-                console.log(1);
                 next();
               } else {
-                console.log(2);
                 next(null, info.headers.location);
               }
             });
