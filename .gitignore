@@ -37,6 +37,7 @@ config/*
 !view/noise/bower_components/jquery-menu
 !view/noise/bower_components/font-awesome
 !view/noise/node_modules/linkurious/dist/*
+!view/noise/node_modules/pleasejs/dist/*
 
 # Data.Taipei Hackathon files
 dataTaipeiHackathon/*
