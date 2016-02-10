@@ -17,7 +17,6 @@ app.get('/', function(req, res) {
   var lat = parseFloat(req.query.lat);
   var lng = parseFloat(req.query.lng);
 
-
   //The coordinate order is longitude, then latitude.
   Picture.geoNear([lng, lat], {
     num: 25,
@@ -36,16 +35,9 @@ app.get('/', function(req, res) {
           next();
         } else {
           if (!!info.headers.location) {
-
-            ul.request(info.headers.location, function(err, data, result) {
-              if (result.headers.location === 'https://s.yimg.com/pw/images/en-us/photo_unavailable_l.png') {
-                next();
-              } else {
-                next(null, info.headers.location);
-              }
-            });
-          } else {
             next();
+          } else {
+            next(null, pic.obj.imgurl);
           }
         }
       });
