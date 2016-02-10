@@ -24,6 +24,7 @@ app.get('/', function(req, res) {
     maxDistance: 100, //meters
     spherical: true
   }, function(err, pictures){
+
     if (!pictures){
       return res.status(400).json({
         errcode: 1001,
@@ -36,16 +37,9 @@ app.get('/', function(req, res) {
           next();
         } else {
           if (!!info.headers.location) {
-
-            ul.request(info.headers.location, function(err, data, result) {
-              if (result.headers.location === 'https://s.yimg.com/pw/images/en-us/photo_unavailable_l.png') {
-                next();
-              } else {
-                next(null, info.headers.location);
-              }
-            });
-          } else {
             next();
+          } else {
+            next(null, pic.obj.imgurl);
           }
         }
       });
