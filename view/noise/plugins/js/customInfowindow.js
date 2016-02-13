@@ -38,9 +38,11 @@ var custom_infowindow_picEndings = [
 
 
 var custom_infowindow_checkin =
-  '       <div id="containerCheckin" style="display:none; width: 400px; height: 300px"></div>';
+  '       <div id="containerCheckin" style="display:none; width: 400px; height: 300px">' +
+  '</div>';
 var custom_infowindow_network =
-  '       <div class="jcarousel" id="containerNet" style="display:block; width: 400px; height: 300px"></div>';
+  '       <div id="containerNet" style="display:block; width: 400px; height: 300px">' +
+  '</div>';
 
 var custom_infowindow_transitions = [
 //icons for transitions (calling knockout.js here)

@@ -13,7 +13,7 @@ app.get('/', function(req, res){
   var lat = parseFloat(req.query.lat);
   var lng = parseFloat(req.query.lng);
 
-  var num = req.query.num | 10;
+  var num = req.query.num | 7;
   var url;
   Checkin.geoNear([lat, lng], {
     num: parseFloat(num),

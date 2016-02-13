@@ -23,79 +23,77 @@ function draw_chart(year, season, option) {
  * @author Torstein Honsi
  */
 
-// Load the fonts
-Highcharts.createElement('link', {
-   href: '//fonts.googleapis.com/css?family=Dosis:400,600',
-   rel: 'stylesheet',
-   type: 'text/css'
-}, null, document.getElementsByTagName('head')[0]);
+  // Load the fonts
+  Highcharts.createElement('link', {
+     href: '//fonts.googleapis.com/css?family=Dosis:400,600',
+     rel: 'stylesheet',
+     type: 'text/css'
+  }, null, document.getElementsByTagName('head')[0]);
 
-Highcharts.theme = {
-   colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
-      "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
-   chart: {
-      backgroundColor: null,
-      style: {
-         fontFamily: "Dosis, sans-serif"
-      }
-   },
-   title: {
-      style: {
-         fontSize: '16px',
-         fontWeight: 'bold',
-         textTransform: 'uppercase'
-      }
-   },
-   tooltip: {
-      borderWidth: 0,
-      backgroundColor: 'rgba(219,219,216,0.8)',
-      shadow: false
-   },
-   legend: {
-      itemStyle: {
-         fontWeight: 'bold',
-         fontSize: '13px'
-      }
-   },
-   xAxis: {
-      gridLineWidth: 1,
-      labels: {
-         style: {
-            fontSize: '12px'
-         }
-      }
-   },
-   yAxis: {
-      minorTickInterval: 'auto',
-      title: {
-         style: {
-            textTransform: 'uppercase'
-         }
-      },
-      labels: {
-         style: {
-            fontSize: '12px'
-         }
-      }
-   },
-   plotOptions: {
-      candlestick: {
-         lineColor: '#404048'
-      }
-   },
+  Highcharts.theme = {
+     colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+        "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+     chart: {
+        backgroundColor: null,
+        style: {
+           fontFamily: "Dosis, sans-serif"
+        }
+     },
+     title: {
+        style: {
+           fontSize: '16px',
+           fontWeight: 'bold',
+           textTransform: 'uppercase'
+        }
+     },
+     tooltip: {
+        borderWidth: 0,
+        backgroundColor: 'rgba(219,219,216,0.8)',
+        shadow: false
+     },
+     legend: {
+        itemStyle: {
+           fontWeight: 'bold',
+           fontSize: '13px'
+        }
+     },
+     xAxis: {
+        gridLineWidth: 1,
+        labels: {
+           style: {
+              fontSize: '12px'
+           }
+        }
+     },
+     yAxis: {
+        minorTickInterval: 'auto',
+        title: {
+           style: {
+              textTransform: 'uppercase'
+           }
+        },
+        labels: {
+           style: {
+              fontSize: '12px'
+           }
+        }
+     },
+     plotOptions: {
+        candlestick: {
+           lineColor: '#404048'
+        }
+     },
+     // General
+     background2: '#F0F0EA'
 
+  };
 
-   // General
-   background2: '#F0F0EA'
-
-};
-
-// Apply the theme
-Highcharts.setOptions(Highcharts.theme);
+  // Apply the theme
+  Highcharts.setOptions(Highcharts.theme);
 
   //pass an Array to the year parameter, with length(Array) = 8
   //pass an Array to the season parameter, with length(Array) = 8
-  var tableName;
+  var tableName, seriesDataArray;
   if (option === 0) {
     tableName = 'Spring';
   } else if (option === 1) {
@@ -105,6 +103,21 @@ Highcharts.setOptions(Highcharts.theme);
   } else if (option === 3) {
     tableName = 'Winter';
   }
+
+  seriesDataArray = [{
+    name: 'Yearly',
+    data: year,
+    pointPlacement: 'on'
+  }];
+
+  if (!!season === true) {
+    seriesDataArray.unshift({
+      name: tableName,
+      data: season,
+      pointPlacement: 'on'
+    });
+  };
+
   $('#container').highcharts({
     exporting: {
       enabled: false
@@ -148,15 +161,7 @@ Highcharts.setOptions(Highcharts.theme);
       y: 30,
       layout: 'vertical'
     },
-    series: [{
-      name: tableName,
-      data: season,
-      pointPlacement: 'on'
-    }, {
-      name: 'Yearly',
-      data: year,
-      pointPlacement: 'on'
-    }]
+    series: seriesDataArray
   });
 
   console.log('FINISHED!');

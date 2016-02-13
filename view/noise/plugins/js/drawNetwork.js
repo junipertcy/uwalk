@@ -9,14 +9,12 @@ var drawNetwork = function(lat, lng) {
       lat: lat.toString()
     }
   }).done(function(data){
-    console.log('network fetched is....');
-    console.log(data);
     var i;
     var s;
     var g = {
-          nodes: [],
-          edges: []
-        };
+      nodes: [],
+      edges: []
+    };
 
     for (i = 0; i < data.nodes.length; i++){
       g.nodes.push({

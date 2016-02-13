@@ -58,19 +58,18 @@
 
     <script>
       'use strict';
-      var layerInit, custom_infowindow, sql;
+      var layerInit, custom_infowindow, sql, clickRetData, seasonParam;
 
       function main(season) {
-        var tableName;
-        console.log('season = ', season);
+        var seasonName;
         if (season === 0) {
-          tableName = 'spring';
+          seasonName = 'spring';
         } else if (season === 1) {
-          tableName = 'summer';
+          seasonName = 'summer';
         } else if (season === 2) {
-          tableName = 'fall';
+          seasonName = 'fall';
         } else if (season === 3) {
-          tableName = 'winter';
+          seasonName = 'winter';
         }
 
         cartodb.createVis('map', 'https://junipertcy.cartodb.com/api/v2/viz/ff9fb71c-74d6-11e5-95f0-0e787de82d45/viz.json', {
@@ -85,8 +84,6 @@
           $(document).ready(function() {
             $('#btnGeocode').click(function(){
               var addrs = $('#txtGeocode').val();
-              console.log(map);
-              console.log(typeof map);
               geocodeAddress(addrs, map);
             });
             $(document).keydown(function(e) {
@@ -108,20 +105,31 @@
           subLayer[season].show();
           var data = {};
           data.cartodb_id = 0;
-          infoWindow('', [40.733, -73.893], '', data, 1, 'spring', subLayer, function(){
-            subLayer[season].infowindow.set({
-              template: custom_infowindow,
-              sanitizeTemplate: true,
-              width: 400,
-              maxHeight: 700
-            });
+          infoWindow('', [40.733, -73.893], '', data, 1, '', subLayer, function(){
+            for (var s = 0; s <= 3; s++) {
+              subLayer[s].infowindow.set({
+                template: custom_infowindow,
+                sanitizeTemplate: true,
+                width: 400,
+                maxHeight: 700
+              });
+            }
             layerInit.on('featureClick', function(e, latlng, pos, data) {
-              console.log(subLayer[season].infowindow);
-              infoWindow(e, latlng, pos, data, season, tableName, subLayer);
+              clickRetData = data;
+              infoWindow(e, latlng, pos, data, season, seasonName, subLayer);
+              fetchChartDataAndDraw(null, data.cartodb_id, null);
+              if (seasonParam === 0) {
+                fetchChartDataAndDraw('spring', clickRetData.cartodb_id, 0);
+              } else if (seasonParam === 1) {
+                fetchChartDataAndDraw('summer', clickRetData.cartodb_id, 1);
+              } else if (seasonParam === 2) {
+                fetchChartDataAndDraw('fall', clickRetData.cartodb_id, 2);
+              } else if (seasonParam === 3) {
+                fetchChartDataAndDraw('winter', clickRetData.cartodb_id, 3);
+              }
             });
           });
-        })
-        .error(function(err){
+        }).error(function(err){
           console.log('Layer loading error!');
           console.log(err);
         });
@@ -134,8 +142,8 @@
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({
-      'address': address,
-      'componentRestrictions': {
+      address: address,
+      componentRestrictions: {
         country: 'US',
         locality: 'New York City'
       }
@@ -144,6 +152,7 @@
         var lat = results[0].geometry.location.lat();
         var lng = results[0].geometry.location.lng();
         //Show: the place you requested is at ...
+        console.log('The place you requested is at ...');
         console.log(lat, lng);
         if (firstRun === true) {
           marker = L.marker([lat, lng]).addTo(resultsMap);
@@ -166,141 +175,109 @@
       layer.forEach(function(i) {
         i.hide();
       });
-
       switch (layerToShow) {
         case 'Z':
-          console.log(layer[0]);
           layer[0].show();
-          //.setSQL('SELECT sum FROM z_5');
+          fetchChartDataAndDraw(null, clickRetData.cartodb_id);
         break;
-        case 'A0':
-          season = 0;
+        case 'A':
+          seasonParam = 0;
           layer[0].show();
-          //.setSQL('SELECT sumall FROM spring');
+          fetchChartDataAndDraw('spring', clickRetData.cartodb_id, 0);
           break;
-        case 'A1':
-          season = 0;
-          console.log(layer[0]);
-          layer[0].show();
-          //.setSQL('SELECT sumweekdays FROM spring')
-          break;
-        case 'A2':
-          season = 0;
-          layer[0].show();
-          //.setSQL('SELECT sumweekends FROM spring')
-          break;
-        case 'B0':
-          season = 1;
+        case 'B':
+          seasonParam = 1;
           layer[1].show();
-          //.setSQL('SELECT sumall FROM summer');
+          fetchChartDataAndDraw('summer', clickRetData.cartodb_id, 1);
           break;
-        case 'B1':
-          season = 1;
-          layer[1].show();
-          //.setSQL('SELECT sumweekdays FROM summer');
-          break;
-        case 'B2':
-          season = 1;
-          //layer[1].setSQL('SELECT sumweekends FROM summer');
-          layer[1].show();
-          break;
-        case 'C0':
-          season = 2;
+        case 'C':
+          seasonParam = 2;
           layer[2].show();
-          //.setSQL('SELECT sumall FROM fall')
+          fetchChartDataAndDraw('fall', clickRetData.cartodb_id, 2);
           break;
-        case 'C1':
-          season = 2;
-          layer[2].show();
-          //.setSQL('SELECT sumweekdays FROM fall')
-          break;
-        case 'C2':
-          season = 2;
-          layer[2].show();
-          //.setSQL('SELECT sumweekends FROM fall')
-          break;
-        case 'D0':
-          season = 3;
+        case 'D':
+          seasonParam = 3;
           layer[3].show();
-          //.setSQL('SELECT sumall FROM winter')
+          fetchChartDataAndDraw('winter', clickRetData.cartodb_id, 3);
           break;
-        case 'D1':
-          season = 3;
-          layer[3].show();
-          //.setSQL('SELECT sumweekdays FROM winter')
-          break;
-        case 'D2':
-          season = 3;
-          layer[3].show();
-          //.setSQL('SELECT sumweekends FROM winter')
-        break;
       }
       return season;
     };
 
 
-    var infoWindow = function (e, latlng, pos, data, season, tableName, subLayer, callback) {
-      //use sql to get some part of data
-      //Select yearly data
+    var fetchChartDataAndDraw = function (seasonName, id, season) {
       sql = new cartodb.SQL({
         user: 'junipertcy'
       });
 
-      sql.execute('SELECT * FROM z_5 WHERE cartodb_id = ' + data.cartodb_id).done(function(yearData){
+      sql.execute('SELECT * FROM z_5 WHERE cartodb_id = ' + id).done(function(yearData){
         var i = yearData.rows[0];
         if (i) {
           var gridYear = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
           gridYear = toPercent(gridYear);
         }
         //Select seasonal data
-        sql.execute('SELECT * FROM ' + tableName  + ' WHERE cartodb_id = ' + data.cartodb_id).done(function(seasonData){
-          var i = seasonData.rows[0];
-          if (i) {
-            var gridSeason = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
-            gridSeason = toPercent(gridSeason);
-          }
-
-          var loc = latlng.toString().split(',').map(Number);
-          $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
-            drawMap(loc[0], loc[1]);
-            drawNetwork(loc[0], loc[1]);
-
-            var picUrl = '';
-            if (dataPic.msg) {
-              $.each(dataPic.msg, function(i) {
-                var imgurl = dataPic.msg[i];
-                var url = '<li style="width: 400px; height: 300px"><img src="' +
-                  imgurl +
-                  '" width="400" height="300" alt=""></li>';
-                picUrl = picUrl + url;
-                return i < 10;
-              });
-
-              custom_infowindow =
-                custom_infowindow_headers +
-                custom_infowindow_scripts +
-
-                custom_infowindow_picHeaders +
-                picUrl +
-                custom_infowindow_picEndings +
-
-                custom_infowindow_checkin +
-                custom_infowindow_network +
-
-                custom_infowindow_transitions +
-                custom_infowindow_endings;
-
+        if (!!seasonName === false) {
+          draw_chart(gridYear);
+        } else {
+          sql.execute('SELECT * FROM ' + seasonName  + ' WHERE cartodb_id = ' + id).done(function(seasonData){
+            var i = seasonData.rows[0];
+            if (i) {
+              var gridSeason = [i.loud_music_party, i.vehicle, i.construction, i.banging_pounding, i.ac_ventolation, i.loud_talking, i.manufacturing, i.alarms, i.others];
+              gridSeason = toPercent(gridSeason);
               draw_chart(gridYear, gridSeason, season);
-              subLayer[season].infowindow.set({
-                template: custom_infowindow,
-                sanitizeTemplate: true,
-                width: 400,
-                maxHeight: 700
-              });
-              return callback(null);
             }
           });
-        });
+        }
+      });
+    };
+
+
+
+    var infoWindow = function (e, latlng, pos, data, season, seasonName, subLayer, callback) {
+      //use sql to get some part of data
+      //Select yearly data
+
+      var loc = latlng.toString().split(',').map(Number);
+      $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
+        drawMap(loc[0], loc[1]);
+        drawNetwork(loc[0], loc[1]);
+
+        var picUrl = '';
+        if (dataPic.msg) {
+          $.each(dataPic.msg, function(i) {
+            var imgurl = dataPic.msg[i];
+            var url = '<li style="width: 400px; height: 300px"><img src="' +
+              imgurl +
+              '" width="400" height="300" alt=""></li>';
+            picUrl = picUrl + url;
+            return i < 10;
+          });
+
+          custom_infowindow =
+            custom_infowindow_headers +
+            custom_infowindow_scripts +
+
+            custom_infowindow_picHeaders +
+            picUrl +
+            custom_infowindow_picEndings +
+
+            custom_infowindow_checkin +
+            custom_infowindow_network +
+
+            custom_infowindow_transitions +
+            custom_infowindow_endings;
+
+          for (var s = 0; s <= 3; s++) {
+            subLayer[season].infowindow.set({
+              template: custom_infowindow,
+              sanitizeTemplate: true,
+              width: 400,
+              maxHeight: 700
+            });
+          }
+          return callback(null);
+        }
       });
     }
     window.onload = main(0);
@@ -317,7 +294,7 @@
     </div>
 
     <div id="about">
-      <h4><br>Demo Web App: Reasoning Urban Noises from Multimodal Geo-Social Media Data</h4><div id="info">
+      <h4 font-family:"Helvetica"; color:"green"><br>MM-15 Grand Challenge DEMO: <br>Reasoning Urban Noises from Multimodal <br>Geo-Social Media Data</h4><div id="info">
       <h5><br>Data: <a href="https://nycopendata.socrata.com/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9" target="_blank">NYC 311 Service Requests Database</a>, <a href="https://developer.foursquare.com/" target="_blank">Foursquare API</a>, <a href="https://www.flickr.com/services/api/" target="_blank">Flickr API</a>, <a href="https://snap.stanford.edu/data/loc-gowalla.html" target="_blank">SNAP-Gowalla</a> and <a href="https://dev.twitter.com" target="_blank">Twitter API</a></h5>
       </div></div><div style="margin-top:5px;margin-bottom:10px;margin-left:12px;color:#000">
       <em>Click over the locations to see noise details.</em>
@@ -330,50 +307,14 @@
     </div>
 
     <div style="float:center; display: none;"></div>
-    <div class="filter">Filter by seasons and weekdays:</div>
+    <div class="filter">Filter by seasons:</div>
 
     <div class="btn-group">
       <button class="btn btn-default" onClick="showLayer('Z')">All</button>
-
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="img/red.png" width="11" height="12" /> Spring<span class="caret"></span></button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#" onClick="showLayer('A0')">All</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#" onClick="showLayer('A1')">Weekdays</a></li>
-        <li><a href="#" onClick="showLayer('A2')">Weekends</a></li>
-      </ul>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="img/green.png" width="11" height="12" /> Summer<span class="caret"></span></button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#" onClick="showLayer('B0')">All</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#" onClick="showLayer('B1')">Weekdays</a></li>
-        <li><a href="#" onClick="showLayer('B2')">Weekends</a></li>
-      </ul>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><img src="img/yellow.png" width="11" height="12" /> Fall<span class="caret"></span></button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#" onClick="showLayer('C0')">All</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#" onClick="showLayer('C1')">Weekdays</a></li>
-        <li><a href="#" onClick="showLayer('C2')">Weekends</a></li>
-      </ul>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><img src="img/blue.png" width="11" height="12" /> Winter<span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#" onClick="showLayer('D0')">All</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#" onClick="showLayer('D1')">Weekdays</a></li>
-          <li><a href="#" onClick="showLayer('D2')">Weekends</a></li>
-        </ul>
-      </div>
+      <button class="btn btn-default" onClick="showLayer('A')"><img src="img/red.png" width="11" height="12" /> Spring</button>
+      <button class="btn btn-default" onClick="showLayer('B')"><img src="img/green.png" width="11" height="12" /> Summer</button>
+      <button class="btn btn-default" onClick="showLayer('C')"><img src="img/yellow.png" width="11" height="12" /> Fall</button>
+      <button class="btn btn-default" onClick="showLayer('D')"><img src="img/blue.png" width="11" height="12" /> Winter</button>
     </div>
       <div id="copyright">© 2015 <a href="http://mslab.csie.ntu.edu.tw/~sandoh/">Hsun-Ping Hsieh</a>, <a href="http://junipertcy.info">Tzu-Chi Yen</a> and <a href="http://www.citi.sinica.edu.tw/pages/ctli/index_en.html">Cheng-Te Li</a>
       </div>

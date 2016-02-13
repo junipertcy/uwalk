@@ -81,15 +81,15 @@ app.use(function(req, res, next) {
 });
 
 /* jshint unused:false */
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     console.log('Hello, there! You are in the development environment.');
-//     res.status(err.status || 500);
-//     res.json({
-//       env: 'You\'ve got an error, some features are still under development...'
-//     });
-//   });
-// }
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    console.log('Hello, there! You are in the development environment.');
+    res.status(err.status || 500);
+    res.json({
+      env: 'You\'ve got an error, some features are still under development...'
+    });
+  });
+}
 
 app.use(function(err, req, res, next) {
   console.log(err);
