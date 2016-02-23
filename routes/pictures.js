@@ -23,7 +23,6 @@ app.get('/', function(req, res) {
     maxDistance: 100, //meters
     spherical: true
   }, function(err, pictures){
-
     if (!pictures){
       return res.status(400).json({
         errcode: 1001,
@@ -32,7 +31,7 @@ app.get('/', function(req, res) {
     }
     async.map(pictures, function(pic, next) {
       ul.request(pic.obj.imgurl, function(err, data, info) {
-        if (err || info.status === -1) {
+        if (info.status === -1) {
           next();
         } else {
           if (!!info.headers.location) {
