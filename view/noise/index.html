@@ -58,8 +58,7 @@
 
     <script>
       'use strict';
-      var layerInit, custom_infowindow, sql, clickRetData, seasonParam;
-
+      var layerInit, custom_infowindow, sql, clickRetData, seasonParam, subLayer, ctInfowindowGlobal, showLayer;
       function main(season) {
         var seasonName;
         if (season === 0) {
@@ -96,7 +95,7 @@
           //data layer
           layerInit = layers[1];
 
-          var subLayer = layerInit.getSubLayers();
+          subLayer = layerInit.getSubLayers();
 
           // subLayer.forEach(function(i) {
           //   i.hide();
@@ -105,18 +104,85 @@
           subLayer[season].show();
           var data = {};
           data.cartodb_id = 0;
-          infoWindow('', [40.733, -73.893], '', data, 1, '', subLayer, function(){
+
+          infoWindow([40.733, -73.893], function(err, ctInfoWindow){
+            //An initialization
             for (var s = 0; s <= 3; s++) {
               subLayer[s].infowindow.set({
-                template: custom_infowindow,
+                template: ctInfoWindow,
                 sanitizeTemplate: true,
                 width: 400,
                 maxHeight: 700
               });
             }
-            layerInit.on('featureClick', function(e, latlng, pos, data) {
-              clickRetData = data;
-              infoWindow(e, latlng, pos, data, season, seasonName, subLayer);
+
+            showLayer = function (layerToShow) {
+              var layer = layerInit.getSubLayers();
+              var season;
+              //turn off all layer
+              layer.forEach(function(i) {
+                i.hide();
+              });
+              switch (layerToShow) {
+                case 'Z':
+                  seasonParam = 0;
+                  layer[0].show();
+                  layer[0].infowindow.set('template', ctInfowindowGlobal);
+                  layer[0].setInteraction(true)
+                  fetchChartDataAndDraw(null, clickRetData.cartodb_id);
+                  break;
+                case 'A':
+                  seasonParam = 0;
+                  layer[0].infowindow.set('template', ctInfowindowGlobal);
+                  layer[0].setInteraction(true)
+                  layer[0].show();
+                  fetchChartDataAndDraw('spring', clickRetData.cartodb_id, 0);
+                  break;
+                case 'B':
+                  seasonParam = 1;
+                  layer[1].infowindow.set('template', ctInfowindowGlobal);
+                  layer[1].setInteraction(true)
+                  layer[1].show();
+                  fetchChartDataAndDraw('summer', clickRetData.cartodb_id, 1);
+                  break;
+                case 'C':
+                  seasonParam = 2;
+                  layer[2].infowindow.set('template', ctInfowindowGlobal);
+                  layer[2].setInteraction(true)
+                  layer[2].show();
+                  fetchChartDataAndDraw('fall', clickRetData.cartodb_id, 2);
+                  break;
+                case 'D':
+                  seasonParam = 3;
+                  layer[3].infowindow.set('template', ctInfowindowGlobal);
+                  layer[3].setInteraction(true)
+                  layer[3].show();
+                  fetchChartDataAndDraw('winter', clickRetData.cartodb_id, 3);
+                  break;
+              }
+              return season;
+            };
+            // for (var s = 0; s <= 3; s++) {
+            //   subLayer[0].infowindow.set({
+            //     template: ctInfowindowGlobal,
+            //     sanitizeTemplate: true,
+            //     width: 400,
+            //     maxHeight: 700
+            //   });
+            // }
+          });
+
+          layerInit.on('featureClick', function(e, latlng, pos, data) {
+            clickRetData = data;
+            infoWindow(latlng, function(err, ctInfoWindow){
+              ctInfowindowGlobal = ctInfoWindow;
+
+              if (!!seasonParam === false) {
+                subLayer[0].infowindow.set('template', ctInfowindowGlobal);
+              } else {
+                subLayer[seasonParam].infowindow.set('template', ctInfowindowGlobal);
+              }
+
               fetchChartDataAndDraw(null, data.cartodb_id, null);
               if (seasonParam === 0) {
                 fetchChartDataAndDraw('spring', clickRetData.cartodb_id, 0);
@@ -129,6 +195,8 @@
               }
             });
           });
+
+
         }).error(function(err){
           console.log('Layer loading error!');
           console.log(err);
@@ -168,41 +236,7 @@
     });
   }
 
-    var showLayer = function (layerToShow) {
-      var layer = layerInit.getSubLayers();
-      var season;
-      //turn off all layer
-      layer.forEach(function(i) {
-        i.hide();
-      });
-      switch (layerToShow) {
-        case 'Z':
-          layer[0].show();
-          fetchChartDataAndDraw(null, clickRetData.cartodb_id);
-        break;
-        case 'A':
-          seasonParam = 0;
-          layer[0].show();
-          fetchChartDataAndDraw('spring', clickRetData.cartodb_id, 0);
-          break;
-        case 'B':
-          seasonParam = 1;
-          layer[1].show();
-          fetchChartDataAndDraw('summer', clickRetData.cartodb_id, 1);
-          break;
-        case 'C':
-          seasonParam = 2;
-          layer[2].show();
-          fetchChartDataAndDraw('fall', clickRetData.cartodb_id, 2);
-          break;
-        case 'D':
-          seasonParam = 3;
-          layer[3].show();
-          fetchChartDataAndDraw('winter', clickRetData.cartodb_id, 3);
-          break;
-      }
-      return season;
-    };
+
 
 
     var fetchChartDataAndDraw = function (seasonName, id, season) {
@@ -232,54 +266,6 @@
       });
     };
 
-
-
-    var infoWindow = function (e, latlng, pos, data, season, seasonName, subLayer, callback) {
-      //use sql to get some part of data
-      //Select yearly data
-
-      var loc = latlng.toString().split(',').map(Number);
-      $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
-        drawMap(loc[0], loc[1]);
-        drawNetwork(loc[0], loc[1]);
-
-        var picUrl = '';
-        if (dataPic.msg) {
-          $.each(dataPic.msg, function(i) {
-            var imgurl = dataPic.msg[i];
-            var url = '<li style="width: 400px; height: 300px"><img src="' +
-              imgurl +
-              '" width="400" height="300" alt=""></li>';
-            picUrl = picUrl + url;
-            return i < 10;
-          });
-
-          custom_infowindow =
-            custom_infowindow_headers +
-            custom_infowindow_scripts +
-
-            custom_infowindow_picHeaders +
-            picUrl +
-            custom_infowindow_picEndings +
-
-            custom_infowindow_checkin +
-            custom_infowindow_network +
-
-            custom_infowindow_transitions +
-            custom_infowindow_endings;
-
-          for (var s = 0; s <= 3; s++) {
-            subLayer[season].infowindow.set({
-              template: custom_infowindow,
-              sanitizeTemplate: true,
-              width: 400,
-              maxHeight: 700
-            });
-          }
-          return callback(null);
-        }
-      });
-    }
     window.onload = main(0);
 
     </script>

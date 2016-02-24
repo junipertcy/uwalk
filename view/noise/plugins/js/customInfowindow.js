@@ -74,6 +74,51 @@ var custom_infowindow_endings = [
 '</div>'].join('');
 
 
+var infoWindow = function (latlng, callback) {
+      //use sql to get some part of data
+      //Select yearly data
 
+      var loc = latlng.toString().split(',').map(Number);
+      $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
+        drawMap(loc[0], loc[1]);
+        drawNetwork(loc[0], loc[1]);
+
+        var picUrl = '';
+        if (dataPic.msg) {
+          $.each(dataPic.msg, function(i) {
+            var imgurl = dataPic.msg[i];
+            var url = '<li style="width: 400px; height: 300px"><img src="' +
+              imgurl +
+              '" width="400" height="300" alt=""></li>';
+            picUrl = picUrl + url;
+            return i < 10;
+          });
+
+          custom_infowindow =
+            custom_infowindow_headers +
+            custom_infowindow_scripts +
+
+            custom_infowindow_picHeaders +
+            picUrl +
+            custom_infowindow_picEndings +
+
+            custom_infowindow_checkin +
+            custom_infowindow_network +
+
+            custom_infowindow_transitions +
+            custom_infowindow_endings;
+
+          // for (var s = 0; s <= 3; s++) {
+          //   subLayer[season].infowindow.set({
+          //     template: custom_infowindow,
+          //     sanitizeTemplate: true,
+          //     width: 400,
+          //     maxHeight: 700
+          //   });
+          // }
+          return callback(null, custom_infowindow);
+        }
+      });
+    }
 
 
