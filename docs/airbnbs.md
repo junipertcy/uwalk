@@ -11,15 +11,12 @@ The airbnb data can be retrived via http://uwalk.elasticbeanstalk.com/api/airbnb
       1. Currently only feature listings in San Francisco, New York, Paris, and London is available.
       2. TeTe is handsome.
 
-    query: 
+    Query: 
     	
     	{
       	  market: 'New York',
           count: 10
         }
-
-    Request: {
-    }
 
     Response (200): 
 		
