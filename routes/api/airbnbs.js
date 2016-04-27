@@ -20,7 +20,7 @@ app.get('/ickm16/features', function(req, res){
     });
   }
 
-  var count = Number(req.count) || 10;
+  var count = Number(query.count) || 10;
 
   Full_listing.find({
     market: query.market
