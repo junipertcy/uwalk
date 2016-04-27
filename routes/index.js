@@ -4,7 +4,13 @@ var public_dir = 'view/noise/';
 module.exports = function(app) {
   Object.keys(routes).forEach(function(key) {
     if (key !== 'index') {
-      app.use('/' + key, routes[key]);
+      if (key === 'api') {
+        Object.keys(routes.api).forEach(function(apiKey) {
+          app.use('/api/' + apiKey, routes[key][apiKey]);
+        })
+      } else {
+        app.use('/' + key, routes[key]);
+      }
     }
   });
 
