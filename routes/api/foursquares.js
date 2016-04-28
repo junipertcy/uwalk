@@ -3,6 +3,7 @@ var async = require('async');
 var fs = require('fs');
 var _ = require('underscore');
 var app = module.exports = express();
+var moment = require('moment');
 var fsMethods = require('../../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
 
@@ -40,15 +41,45 @@ app.get('/ickm16/features', function(req, res){
 
     Fs_poi.find({
       code: cityCountryCode
-    }).limit(100).exec(function(err, pois){
+    }).limit(2).exec(function(err, pois){
       async.mapLimit(pois, 1, function(poi, next){
+        //poi = poi.toJSON();
         var hierarchy = fsMethods.findVenueHierarchy(fsHierarchy.response.categories, poi.venue_name);
-
         hierarchy = hierarchy ? hierarchy.join(';') : 'null';
-        next(null, hierarchy);
+        // console.log(typeof poi._id);
+        //console.log(poi._id.toString());
+        Fs_checkin.find({
+          venue_id: poi._id.toString()
+        }).exec(function(err, fsCheckins){
+          var checkinsGroupByHour = _.groupBy(fsCheckins, function(o){
+            var t = moment(new Date(o.time)).format('HH');
+            return t;
+          });
+
+          var checkinsByHour = [];
+          Object.keys(checkinsGroupByHour).forEach(function(o){
+            checkinsByHour[Number(o)] = checkinsGroupByHour[o].length;
+          });
+
+          var data = {};
+          data.location = {};
+          data.features = {};
+
+          data.location.lat = poi.lat;
+          data.location.lng = poi.lng;
+          data.features.venue_type = hierarchy;
+          data.features.totalCheckins = Math.max(checkinsByHour);
+          data.features.visitPattern = checkinsByHour.toString();
+
+          next(null, data);
+
+        });
+
       }, function(err, poiArray){
-        console.log(poiArray);
-        return res.status(200).json({});
+        return res.status(200).json({
+          errcode: 0,
+          data: poiArray
+        });
       });
 
     });

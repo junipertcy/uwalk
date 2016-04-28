@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var schema = module.exports = new mongoose.Schema({
   uid: String,
-  venue_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Fs_poi' },
+  venue_id: String,
   time: String,
   offset: Number
 });

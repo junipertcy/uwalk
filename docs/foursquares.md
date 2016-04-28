@@ -29,7 +29,7 @@ The foursquare data can be retrived via http://uwalk.elasticbeanstalk.com/api/fo
           features: {
             venue_type: 'foursquares venue type | String | enum: ["House", "Apartment"] ',
             totalCheckins: 'total checkin numbers | Number | enum: ["Entire home/apt"] ',
-            visitPattern: 'daily room price in USD | Number | 300.00',
+            visitPattern: 'hourly checkin numbers, start from 00:00 to 01:00 | String | "[10, 3,3,5,65,4]" ',
           }
         }
       ]

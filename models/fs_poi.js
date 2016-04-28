@@ -13,6 +13,6 @@ schema.pre('save', function(next) {
 
 if (!schema.options.toJSON) schema.options.toJSON = {};
 schema.options.toJSON.transform = function (doc, ret) {
-  ret.id = ret._id;
-  delete ret._id;
+  // ret.id = ret._id;
+  // delete ret._id;
 };
