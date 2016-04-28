@@ -12,7 +12,7 @@ var self = module.exports = {};
 
 /* ICKM'16 data
 */
-var airbnbSet = ["Calendar", "Full_listing", "Full_review", "Listings_w_latlng", "Nh_def", "Nh_geojson", "Simple_review"];
+var airbnbSet = ["Calendar", "Full_listing", "Full_review", "Listings_w_latlng", "Nh_def", "Nh_geojson", "Simple_review", "Fs_city", "Fs_checkin", "Fs_poi"];
 
 Object.keys(models).forEach(function(key) {
   if (key !== 'index') {
