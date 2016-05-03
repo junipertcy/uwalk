@@ -27,7 +27,7 @@ app.get('/ickm16/features', function(req, res){
   var count = Number(query.count) || 10;
 
   Fs_city.findOne({
-    "city_name": query.market
+    city_name: query.market
   }, function(err, listing){
     if (err) {
       return res.status(400).json({
@@ -39,52 +39,22 @@ app.get('/ickm16/features', function(req, res){
     var cityCenterLng = listing.lng;
     var cityCountryCode = listing.country_code;
 
-    Fs_poi.find({
+    Fsfeature.find({
       code: cityCountryCode
-    }).limit(2).exec(function(err, pois){
-      async.mapLimit(pois, 1, function(poi, next){
-        //poi = poi.toJSON();
-        var hierarchy = fsMethods.findVenueHierarchy(fsHierarchy.response.categories, poi.venue_name);
-        hierarchy = hierarchy ? hierarchy.join(';') : 'null';
-        // console.log(typeof poi._id);
-        //console.log(poi._id.toString());
-        Fs_checkin.find({
-          venue_id: poi._id.toString()
-        }).exec(function(err, fsCheckins){
-          var checkinsGroupByHour = _.groupBy(fsCheckins, function(o){
-            var t = moment(new Date(o.time)).format('HH');
-            return t;
-          });
-
-          var checkinsByHour = [];
-          Object.keys(checkinsGroupByHour).forEach(function(o){
-            checkinsByHour[Number(o)] = checkinsGroupByHour[o].length;
-          });
-
-          var data = {};
-          data.location = {};
-          data.features = {};
-
-          data.location.lat = poi.lat;
-          data.location.lng = poi.lng;
-          data.features.venue_type = hierarchy;
-          data.features.totalCheckins = Math.max(checkinsByHour);
-          data.features.visitPattern = checkinsByHour.toString();
-
-          next(null, data);
-
+    }).limit(10).exec(function(err, features){
+      if (err) {
+        return res.status(400).json({
+          errcode: '333',
+          message: 'We cannot find the features of the specified country code!'
         });
+      }
 
-      }, function(err, poiArray){
-        return res.status(200).json({
-          errcode: 0,
-          data: poiArray
-        });
+      return res.status(200).json({
+        errcode: 0,
+        data: features
       });
-
     });
   });
-
 });
 
 
