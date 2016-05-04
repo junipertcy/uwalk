@@ -11,7 +11,7 @@ var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.j
 app.get('/ickm16', function(req, res){
   return res.status(200).json({
     errcode: 0,
-    data: "Helle there! You have successfully entered the /foursquares/ickm16 API!!"
+    data: "Hello there! You have successfully entered the /foursquares/ickm16 API!!"
   });
 });
 
