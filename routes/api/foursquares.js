@@ -6,7 +6,7 @@ var app = module.exports = express();
 var moment = require('moment');
 var fsMethods = require('../../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
-var fsUtils = require('../../scripts/fs2features');
+// var fsUtils = require('../../scripts/fs2features');
 
 app.get('/ickm16', function(req, res){
   return res.status(200).json({
@@ -56,7 +56,7 @@ app.get('/ickm16/features', function(req, res){
     });
   });
 });
-
+/*
 app.get('/ickm16/trans2features', function(req, res){
   if (!req.query || req.query.secret !== "tete.is.handsome") {
     return res.status(401).json({
@@ -71,4 +71,4 @@ app.get('/ickm16/trans2features', function(req, res){
     data: "Hello there! You have successfully triggered trans2features event!!"
   });
 });
-
+*/

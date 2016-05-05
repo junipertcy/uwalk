@@ -7,9 +7,9 @@ var moment = require('moment');
 var fsMethods = require('../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('../utils/static/foursquareHierarchy.json'));
 
-//transferPoiData();
+transferPoiData();
 
-exports.transferPoiData = function(callback, count){
+function transferPoiData(callback, count){
   if (!count) {
     count = 0;
   }
