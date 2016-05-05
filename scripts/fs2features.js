@@ -5,7 +5,7 @@ var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
 var fsMethods = require('../utils/foursquares');
-var fsHierarchy = JSON.parse(fs.readFileSync('../utils/static/foursquareHierarchy.json'));
+var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
 
 //transferPoiData();
 

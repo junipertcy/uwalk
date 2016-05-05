@@ -6,7 +6,7 @@ var app = module.exports = express();
 var moment = require('moment');
 var fsMethods = require('../../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
-var fsUtils = require('../scripts/fs2features');
+var fsUtils = require('../../scripts/fs2features');
 
 app.get('/ickm16', function(req, res){
   return res.status(200).json({
