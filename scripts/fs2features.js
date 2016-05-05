@@ -33,8 +33,8 @@ function transferPoiData(callback, count){
         Fsfeature.create({
           code: poi.code,
           location: {
-            lat: poi.lat,
-            lng: poi.lng
+            lng: poi.lng,
+            lat: poi.lat
           },
           features: {
             venue_type: hierarchy,

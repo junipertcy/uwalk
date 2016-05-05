@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var schema = module.exports = new mongoose.Schema({
   code: String,
   location: {
-    lat: Number,
-    lng: Number
+    lng: Number,
+    lat: Number
   },
   features: {
     venue_type: String,
