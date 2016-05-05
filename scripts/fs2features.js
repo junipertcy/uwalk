@@ -5,7 +5,7 @@ var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
 var fsMethods = require('../utils/foursquares');
-var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
+var fsHierarchy = JSON.parse(fs.readFileSync('../utils/static/foursquareHierarchy.json'));
 
 transferPoiData();
 
@@ -15,7 +15,6 @@ function transferPoiData(callback, count){
   }
   Fs_poi.find({}).skip(count).limit(5000).exec(function(err, pois){
     async.mapLimit(pois, 1000, function(poi, next){
-      console.log(poi);
       var hierarchy = fsMethods.findVenueHierarchy(fsHierarchy.response.categories, poi.venue_name);
       hierarchy = hierarchy ? hierarchy.join(';') : 'null;' + poi.venue_name;
       Fs_checkin.find({
