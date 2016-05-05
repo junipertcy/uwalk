@@ -60,7 +60,7 @@ app.get('/ickm16/features', function(req, res){
 app.get('/ickm16/trans2features', function(req, res){
   if (!req.query || req.query.secret !== "tete.is.handsome") {
     return res.status(401).json({
-      errcode: "000,
+      errcode: "000",
       data: "wrong password!"
     });
   }
