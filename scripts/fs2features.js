@@ -56,7 +56,7 @@ function transferPoiData(callback, count){
       if (err) {
         return callback(err);
       }
-      if (poiArray.length < 1000) {
+      if (count > 3680126) {
         process.exit();
       } else {
         count += 5000;
