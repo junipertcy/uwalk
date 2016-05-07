@@ -15,7 +15,7 @@ function transferPoiData(callback, count){
     count = 0;
   }
   Fs_poi.find({}).skip(count).limit(5000).exec(function(err, pois){
-    async.eachLimit(pois, 1, function(poi, next){
+    async.eachLimit(pois, 1000, function(poi, next){
       var hierarchy = fsMethods.findVenueHierarchy(fsHierarchy.response.categories, poi.venue_name);
       hierarchy = hierarchy ? hierarchy.join(';') : 'null;' + poi.venue_name;
       Fs_checkin.find({

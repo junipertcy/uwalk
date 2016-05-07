@@ -15,13 +15,7 @@ var schema = module.exports = new mongoose.Schema({
 });
 
 schema.index({
-  id: 1,
-  location: '2d'
-},{
-  unique: true
-});
-
-schema.index({
+  code: 1,
   location: '2d'
 },{
   unique: true
