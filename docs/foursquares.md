@@ -85,11 +85,11 @@ It contains three files in tsv format.
 			features: {
 				venue_type: 'foursquares venue type | String | enum: ["House", "Apartment"] ',
 				totalCheckins: 'total checkin numbers | Number | enum: ["Entire home/apt"] ',
-				visitPattern: 'hourly checkin numbers, start from 00:00 to 01:00 | String | "[10, 3,3,5,65,4]" '
+				visitPattern: 'hourly (in LOCAL TIME) checkin numbers, start from 00:00 to 01:00 | String | "[10, 3,3,5,65,4]" '
 			}
 		]
 
   Response (error):
-  
+
   		{errcode: 0, errmsg: 'Not set up any error codes.'}
 

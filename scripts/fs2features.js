@@ -4,6 +4,7 @@ var _ = require('lodash');
 var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var tz = require('moment-timezone');
 var fsMethods = require('../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('../utils/static/foursquareHierarchy.json'));
 
@@ -14,14 +15,14 @@ function transferPoiData(callback, count){
     count = 0;
   }
   Fs_poi.find({}).skip(count).limit(5000).exec(function(err, pois){
-    async.mapLimit(pois, 1000, function(poi, next){
+    async.eachLimit(pois, 1, function(poi, next){
       var hierarchy = fsMethods.findVenueHierarchy(fsHierarchy.response.categories, poi.venue_name);
       hierarchy = hierarchy ? hierarchy.join(';') : 'null;' + poi.venue_name;
       Fs_checkin.find({
         venue_id: poi._id ? poi._id.toString() : next()
       }).exec(function(err, fsCheckins){
         var checkinsGroupByHour = _.groupBy(fsCheckins, function(o){
-          var t = moment(new Date(o.time)).format('HH');
+          var t = moment(new Date(o.time)).add(o.offset || 0, 'm').tz('Europe/London').format('HH');
           return t;
         });
 
@@ -31,6 +32,7 @@ function transferPoiData(callback, count){
         });
 
         Fsfeature.create({
+          id: poi._id.toString(),
           code: poi.code,
           location: {
             lng: poi.lng,
@@ -41,8 +43,12 @@ function transferPoiData(callback, count){
             totalCheckins: fsCheckins.length,
             visitPattern: checkinsByHour.toString()
           }
-        }, function(err, fsFeature){
-          next(null, fsFeature);
+        }, function(err){
+          if (err) {
+            console.log('create error! venue_id: ', poi._id.toString());
+          }
+
+          next(null);
         });
       });
 
@@ -50,9 +56,13 @@ function transferPoiData(callback, count){
       if (err) {
         return callback(err);
       }
-      count += 5000;
-      console.log('Finished parsing ', count, 'pois!')
-      transferPoiData(callback, count);
+      if (poiArray.length < 1000) {
+        process.exit();
+      } else {
+        count += 5000;
+        console.log('Finished parsing ', count, 'pois!')
+        transferPoiData(callback, count);
+      }
     });
   });
 }

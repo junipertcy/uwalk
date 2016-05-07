@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var schema = module.exports = new mongoose.Schema({
+  id: String,
   code: String,
   location: {
     lng: Number,
