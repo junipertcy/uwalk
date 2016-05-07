@@ -27,9 +27,9 @@ schema.index({
   unique: true
 });
 
-schema.pre('save', function(next) {
-  next();
-});
+// schema.pre('save', function(next) {
+//   next();
+// });
 
 if (!schema.options.toJSON) schema.options.toJSON = {};
 schema.options.toJSON.transform = function (doc, ret) {
