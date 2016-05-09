@@ -3,21 +3,12 @@ var mongoose = require('mongoose');
 var schema = module.exports = new mongoose.Schema({
   id: String,
   code: String,
-  location: {
-    lng: Number,
-    lat: Number
-  },
+  location: { type: [Number], index: '2d' },
   features: {
     venue_type: String,
     totalCheckins: Number,
     visitPattern: String
   }
-});
-
-schema.index({
-  location: '2d'
-},{
-  unique: true
 });
 
 // schema.pre('save', function(next) {

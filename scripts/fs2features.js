@@ -31,32 +31,35 @@ function transferPoiData(callback, count){
           checkinsByHour[Number(o)] = checkinsGroupByHour[o].length;
         });
 
-        Fsfeature.create({
-          id: poi._id.toString(),
-          code: poi.code,
-          location: {
-            lng: poi.lng,
-            lat: poi.lat
-          },
-          features: {
-            venue_type: hierarchy,
-            totalCheckins: fsCheckins.length,
-            visitPattern: checkinsByHour.toString()
+        Fsfeature.findOne({
+          id: poi._id ? poi._id.toString() : 'null'
+        }).exec(function(err, inst){
+          if (inst === null) {
+            next()
+          } else {
+            Fsfeature.create({
+              id: poi._id ? poi._id.toString() : 'null',
+              code: poi.code,
+              location: [poi.lng, poi.lat],
+              features: {
+                venue_type: hierarchy,
+                totalCheckins: fsCheckins.length,
+                visitPattern: checkinsByHour.toString()
+              }
+            }, function(err){
+              if (err) {
+                console.log('create error! venue_id: ', poi._id.toString());
+              }
+              next();
+            });
           }
-        }, function(err){
-          if (err) {
-            console.log('create error! venue_id: ', poi._id.toString());
-          }
-
-          next(null);
         });
       });
-
     }, function(err){
       if (err) {
         return callback(err);
       }
-      if (count > 3680126) {
+      if (count > 3680124) {
         process.exit();
       } else {
         count += 5000;
