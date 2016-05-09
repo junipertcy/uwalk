@@ -34,7 +34,7 @@ function transferPoiData(callback, count){
         Fsfeature.findOne({
           id: poi._id ? poi._id.toString() : 'null'
         }).exec(function(err, inst){
-          if (inst === null) {
+          if (!inst) {
             next()
           } else {
             Fsfeature.create({
