@@ -38,7 +38,7 @@ app.get('/ickm16/features', function(req, res){
     if (err) {
       return res.status(400).json({
         errcode: '333',
-        message: 'We cannot find the city you specified!'
+        message: 'city cannot be found error: ' + err
       });
     }
     var cityCenterLat = listing.lat;
@@ -53,7 +53,7 @@ app.get('/ickm16/features', function(req, res){
       if (err) {
         return res.status(400).json({
           errcode: '333',
-          message: 'We cannot find the features of the specified country code!'
+          message: 'feature cannot be found error: '+ err
         });
       }
 

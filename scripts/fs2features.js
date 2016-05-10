@@ -34,7 +34,7 @@ function transferPoiData(callback, count){
         Fsfeature.findOne({
           id: poi._id ? poi._id.toString() : 'null'
         }).exec(function(err, inst){
-          if (!inst) {
+          if (!!inst) {
             next()
           } else {
             Fsfeature.create({
@@ -46,7 +46,7 @@ function transferPoiData(callback, count){
                 totalCheckins: fsCheckins.length,
                 visitPattern: checkinsByHour.toString()
               }
-            }, function(err){
+            }, function(err, fsfeature){
               if (err) {
                 console.log('create error! venue_id: ', poi._id.toString());
               }

@@ -8,8 +8,6 @@ var DBAirbnb = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'res
 var DB_features = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'feature');
 var DB_polis = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'polis');
 
-
-
 var LogDB = mongoose.createConnection('mongodb://' + 'localhost' + '/' + 'construction_log');
 
 var self = module.exports = {};
