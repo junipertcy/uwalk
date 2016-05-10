@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var schema = module.exports = new mongoose.Schema({
   id: String,
   code: String,
-  location: { type: [Number], index: '2d' },
+  location: [{ type: [Number], index: '2d' }],
   features: {
     venue_type: String,
     totalCheckins: Number,

@@ -32,12 +32,12 @@ app.get('/ickm16/features', function(req, res){
   distFromCityCenter /= 6371; //we need to convert the distance to radians; earch radius is approx. 6371 kilometers
 
 
-  Fs_city.find({
+  Fs_city.findOne({
     city_name: query.market
   }, function(err, listing){
     if (err) {
       return res.status(400).json({
-        errcode: '333',
+        errcode: '00002',
         message: 'city cannot be found error: ' + err
       });
     }
@@ -46,13 +46,13 @@ app.get('/ickm16/features', function(req, res){
 
     Fsfeature.find({
       location: {
-        "$geoNear": [cityCenterLng, cityCenterLat],
+        "$near": [cityCenterLng, cityCenterLat],
         "$maxDistance": distFromCityCenter
       }
     }).limit(count).exec(function(err, features){
       if (err) {
         return res.status(400).json({
-          errcode: '333',
+          errcode: '00001',
           message: 'feature cannot be found error: '+ err
         });
       }
