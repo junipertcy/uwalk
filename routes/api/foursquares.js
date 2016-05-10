@@ -6,7 +6,6 @@ var app = module.exports = express();
 var moment = require('moment');
 var fsMethods = require('../../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
-// var fsUtils = require('../../scripts/fs2features');
 
 app.get('/ickm16', function(req, res){
   return res.status(200).json({
@@ -14,6 +13,10 @@ app.get('/ickm16', function(req, res){
     data: "Hello there! You have successfully entered the /foursquares/ickm16 API!!"
   });
 });
+
+/**
+* option: {type: String, enum: ["polygon", "point"]} // currently only point (at city center!) is offered
+*/
 
 app.get('/ickm16/features', function(req, res){
   var query = req.query;
@@ -25,8 +28,11 @@ app.get('/ickm16/features', function(req, res){
   }
   var radiusFromCityCenter = query.radiusFromCityCenter || 10;
   var count = Number(query.count) || 10;
+  var distFromCityCenter = Number(query.distFromCityCenter) || 1; //unit: kilometers
+  distFromCityCenter /= 6371; //we need to convert the distance to radians; earch radius is approx. 6371 kilometers
 
-  Fs_city.findOne({
+
+  Fs_city.find({
     city_name: query.market
   }, function(err, listing){
     if (err) {
@@ -37,11 +43,13 @@ app.get('/ickm16/features', function(req, res){
     }
     var cityCenterLat = listing.lat;
     var cityCenterLng = listing.lng;
-    var cityCountryCode = listing.country_code;
 
     Fsfeature.find({
-      code: cityCountryCode
-    }).limit(10).exec(function(err, features){
+      location: {
+        "$geoNear": [cityCenterLng, cityCenterLat],
+        "$maxDistance": distFromCityCenter
+      }
+    }).limit(count).exec(function(err, features){
       if (err) {
         return res.status(400).json({
           errcode: '333',
@@ -56,19 +64,3 @@ app.get('/ickm16/features', function(req, res){
     });
   });
 });
-/*
-app.get('/ickm16/trans2features', function(req, res){
-  if (!req.query || req.query.secret !== "tete.is.handsome") {
-    return res.status(401).json({
-      errcode: "000",
-      data: "wrong password!"
-    });
-  }
-  fsUtils.transferPoiData();
-
-  return res.status(200).json({
-    errcode: 0,
-    data: "Hello there! You have successfully triggered trans2features event!!"
-  });
-});
-*/

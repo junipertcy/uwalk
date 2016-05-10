@@ -1,4 +1,4 @@
-#full_listings API
+#Airbnbs API
 
 The airbnb data can be retrived via http://uwalk.elasticbeanstalk.com/api/airbnbs/
 
@@ -12,27 +12,26 @@ The airbnb data can be retrived via http://uwalk.elasticbeanstalk.com/api/airbnb
       2. TeTe is handsome.
 
     Query: 
-    	
+    
     	{
-      	  market: 'New York',
-          count: 10
-        }
+    		market: 'New York',
+    		count: 10
+    	}
 
     Response (200): 
 		
 		[
 			location: {
-	          lat: 'the latitute | Number | 23.5',
-		      lng: 'the longitute| Number | 120.0'
-	        },
-	        features: {
-	          property_type: 'airbnb property type | String | enum: ["House", "Apartment"] ',
-	          room_type: 'airbnb room type | String | enum: ["Entire home/apt"] ',
-	          price: 'daily room price in USD | Number | 300.00',
-	          reviews_per_month: 'reviews per month | Number | 3.4'
-	        }
-	      }
-	   	]
+				lat: 'the latitute | Number | 23.5',
+				lng: 'the longitute| Number | 120.0'
+			},
+			features: {
+				property_type: 'airbnb property type | String | enum: ["House", "Apartment"] ',
+				room_type: 'airbnb room type | String | enum: ["Entire home/apt"] ',
+				price: 'daily room price in USD | Number | 300.00',
+				reviews_per_month: 'reviews per month | Number | 3.4'
+			}
+		]
 
   Response (error):
     

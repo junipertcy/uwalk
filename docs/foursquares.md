@@ -65,13 +65,13 @@ It contains three files in tsv format.
 
     Note:
       1. Currently only feature listings in San Francisco, New York, Paris, and London is available.
-      2. TeTe is handsome.
+      2. We will provide geo-spatial quieries such as a) region within a circle; b) region within a polygon, later. Currenly only distFromCityCenter query is offered.
 
     Query:
 
 		{
 			market: 'New York',
-			radiusFromCityCenter: 10,
+			distFromCityCenter: 10 (unit: kilometer),
 			count: 10
 		}
 

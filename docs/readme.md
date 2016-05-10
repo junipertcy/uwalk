@@ -1,0 +1,1 @@
+The uwalk project aims to provide data resources for walkability of living.
