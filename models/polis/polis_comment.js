@@ -7,7 +7,8 @@ var schema = module.exports = new mongoose.Schema({
   "agrees": Number,
   "disagrees": Number,
   "moderated": Number,
-  "comment-body": String
+  "comment-body": String,
+  "usedTime": Object
 });
 
 schema.pre('save', function(next) {

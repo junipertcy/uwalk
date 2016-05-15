@@ -7,7 +7,9 @@ var schema = module.exports = new mongoose.Schema({
   weight: {
     agree: { type: Number, default: 0 },
     disagree: { type: Number, default: 0 },
-    moderate: { type: Number, default: 0 }
+    moderate: { type: Number, default: 0 },
+    similarity: {type: Number, default: 0},
+    timeSim: {type: Number, default: 0}
   },
   updatedTime: { type: Date }
 });

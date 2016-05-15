@@ -1,4 +1,4 @@
-var env = GLOBAL.env = {};
+var env = global.env = {};
 
 var ENV_PREFIX = 'SEN_';
 
@@ -16,8 +16,8 @@ var mergeObject = function(obj1, obj2) {
   });
 };
 
-mergeObject(GLOBAL, require('./models'));
+mergeObject(global, require('./models'));
 
 if (process.env.NODE_ENV === 'test') {
-  GLOBAL.http = require('supertest')(require('./main'));
+  global.http = require('supertest')(require('./main'));
 }
