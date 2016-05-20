@@ -11,29 +11,29 @@ The airbnb data can be retrived via http://uwalk.elasticbeanstalk.com/api/airbnb
       1. Currently only feature listings in San Francisco, New York, Paris, and London is available.
       2. TeTe is handsome.
 
-    Query: 
-    
+    Query:
+
     	{
     		market: 'New York',
     		count: 10
     	}
 
-    Response (200): 
-		
+    Response (200):
+
 		[
 			location: {
 				lat: 'the latitute | Number | 23.5',
 				lng: 'the longitute| Number | 120.0'
 			},
 			features: {
-				property_type: 'airbnb property type | String | enum: ["House", "Apartment"] ',
-				room_type: 'airbnb room type | String | enum: ["Entire home/apt"] ',
+				property_type: 'airbnb property type | String | enum: ["House", "Apartment", "Condominium", "Dorm", "Townhouse", "Bed & Breakfast", "Bungalow", "Boat", "Camper/RV", "Loft", "Tent", "Treehouse", "Cabin", "Villa", "Castle", "Hut", "Train", "Cave", "Chalet", "Other"] ',
+				room_type: 'airbnb room type | String | enum: ["Entire home/apt", "Private room", "Shared room"] ',
 				price: 'daily room price in USD | Number | 300.00',
 				reviews_per_month: 'reviews per month | Number | 3.4'
 			}
 		]
 
   Response (error):
-    
+
   		{errcode: 0, errmsg: 'Not set up any error codes.'}
 
