@@ -58,38 +58,57 @@ It contains three files in tsv format.
 
 
 
-* Get /api/foursquares/ickm16/features
+###/ickm16/features
 
-    Function:
-      Get the features, one feature collection to a listed venue, of foursquares listings
+* **Description**
 
-    Note:
-      1. Currently only feature listings in San Francisco, New York, Paris, and London is available.
-      2. We will provide geo-spatial quieries such as a) region within a circle; b) region within a polygon, later. Currenly only distFromCityCenter query is offered.
+  Get the features, one feature collection to a listed venue, of foursquares listings
 
-    Query:
+  **Note**
 
-		{
-			market: 'New York',
-			distFromCityCenter: 10 (unit: kilometer),
-			count: 10
-		}
+  1. Currently only feature listings in San Francisco, New York, Paris, and London is available.
 
-    Response (200):
+  2. We will provide geo-spatial quieries such as a) region within a circle; b) region within a polygon, later. Currenly only distFromCityCenter query is offered.
+
+* **URL structure**
+
+        http://uwalks.info/api/foursquares/ickm16/features
+
+* **Method**
+
+  GET
+
+* **URL params**
+
+  **option** *required* The geospatial query type. `enum: ["rect", "point"]` default: `"point"` eg: `"rect"`.
+  
+  **market** *required* The queried market. eg: `"New York"`.
+  
+  **distFromCityCenter** *required when option = "point"* The radius of the queried circle in kilometer. default: `10` eg: `30`.
+  
+  **center** *required when option = "rect"* The longitude and latitude of the queried rectangular. Please follow the order longitude and then latitude. eg: `120.34,23.85`.
+  
+  **width** *required when option = "rect"* The width of the rectangular in kilometer. eg: `10`.
+  
+  **height** *required when option = "rect"* The height of the rectangular in kilometer. eg: `10`.
+  
+  **count** The number of returned documents. default `10`.
+
+
+* **Returns**
 
 		[
-			location: {
-				lat: 'the latitute | Number | 23.5',
-				lng: 'the longitute| Number | 120.0'
-			},
-			features: {
-				venue_type: 'foursquares venue type | String | enum: ["House", "Apartment"] ',
-				totalCheckins: 'total checkin numbers | Number | enum: ["Entire home/apt"] ',
-				visitPattern: 'hourly (in LOCAL TIME) checkin numbers, start from 00:00 to 01:00 | String | "[10, 3,3,5,65,4]" '
-			}
+			{
+				location: {
+					lat: 'the latitute | Number | 23.5',
+					lng: 'the longitute| Number | 120.0'
+				},
+				features: {
+					venue_type: 'foursquares venue type | String | enum: ["House", "Apartment"] ',
+					totalCheckins: 'total checkin numbers | Number | enum: ["Entire home/apt"] ',
+					visitPattern: 'hourly (in LOCAL TIME) checkin numbers, start from 00:00 to 01:00 | String | "[1,2,1,10,,,,3,3,5,65,4]" '
+				}
+			}, {
+			...
+			}, ...
 		]
-
-  Response (error):
-
-  		{errcode: 0, errmsg: 'Not set up any error codes.'}
-
