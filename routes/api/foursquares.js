@@ -7,6 +7,13 @@ var moment = require('moment');
 var fsMethods = require('../../utils/foursquares');
 var fsHierarchy = JSON.parse(fs.readFileSync('utils/static/foursquareHierarchy.json'));
 
+app.get('/hierarchy', function(req, res){
+  return res.status(200).json({
+    errcode: 0,
+    data: fsHierarchy
+  });
+});
+
 app.get('/ickm16', function(req, res){
   return res.status(200).json({
     errcode: 0,
