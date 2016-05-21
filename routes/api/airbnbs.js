@@ -61,7 +61,7 @@ app.get('/ickm16/features', function(req, res){
         "$maxDistance": distFromCityCenter //radians!
       };
 
-      bnbFeature(mongoQuery, function(err, features) {
+      bnbFeature(mongoQuery, count, function(err, features) {
         if (err) {
           return res.status(400).json({
             errcode: '00032',
@@ -93,7 +93,7 @@ app.get('/ickm16/features', function(req, res){
       }
     };
 
-    bnbFeature(mongoQuery, function(err, features) {
+    bnbFeature(mongoQuery, count, function(err, features) {
       if (err) {
         return res.status(400).json({
           errcode: '00032',

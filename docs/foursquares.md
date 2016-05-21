@@ -80,18 +80,18 @@ It contains three files in tsv format.
 
 * **URL params**
 
-  **option** *required* The geospatial query type. `enum: ["rect", "cityCenter"]` default: `"cityCenter"` eg: `"rect"`.
-
+  **option** *required* The geospatial query type. `enum: ["rect", "point"]` default: `"point"` eg: `"rect"`.
+  
   **market** *required* The queried market. eg: `"New York"`.
-
-  **distFromCityCenter** *required when option = "cityCenter"* The radius of the queried circle in kilometer. default: `10` eg: `30`.
-
+  
+  **distFromCityCenter** *required when option = "point"* The radius of the queried circle in kilometer. default: `10` eg: `30`.
+  
   **center** *required when option = "rect"* The longitude and latitude of the queried rectangular. Please follow the order longitude and then latitude. eg: `120.34,23.85`.
-
+  
   **width** *required when option = "rect"* The width of the rectangular in kilometer. eg: `10`.
-
+  
   **height** *required when option = "rect"* The height of the rectangular in kilometer. eg: `10`.
-
+  
   **count** The number of returned documents. default `10`.
 
 
