@@ -98,7 +98,7 @@ var schema = module.exports = new mongoose.Schema({
 
 schema.index({
   market: 1
-}, {name: 'marketIndex'});
+});
 
 
 schema.pre('save', function(next) {

@@ -11,7 +11,11 @@ function genLoc(callback, count) {
     count = 0;
   }
 
-  Full_listing.find({}).skip(count).limit(1000).exec(function(err, listing) {
+  Full_listing.find({
+    location: {
+      "$exists": false
+    }
+  }).skip(count).limit(1000).exec(function(err, listing) {
     async.eachLimit(listing, 100, function(li, next) {
       Full_listing.update({
         _id: li._id
