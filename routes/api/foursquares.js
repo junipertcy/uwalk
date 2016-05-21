@@ -14,10 +14,6 @@ app.get('/ickm16', function(req, res){
   });
 });
 
-/**
-* option: {type: String, enum: ["rect", "point"]} // currently only point (at city center!) is offered
-*/
-
 app.get('/ickm16/features', function(req, res){
   var earthRadius = 6371.1;
   var magicNumber = 111.111;
@@ -27,7 +23,7 @@ app.get('/ickm16/features', function(req, res){
   if (!query.option) {
     return res.status(200).json({
       errcode: 0,
-      data: "Please specify an option of query. Either \'rect\' or \'point\'."
+      data: "Please specify an option of query. Either \'rect\' or \'cityCenter\'."
     });
   } else if (query.option === "rect") {
     if (!query.width || !query.height || !query.center) {
@@ -36,7 +32,6 @@ app.get('/ickm16/features', function(req, res){
         data: "Please specify the rect\'s center (in order of lng, lat), width (unit: km), and height (unit: km)."
       });
     }
-
   }
 
   if (!query.market) {
@@ -59,7 +54,7 @@ app.get('/ickm16/features', function(req, res){
     var cityCenterLat = listing.lat;
     var cityCenterLng = listing.lng;
 
-    if (query.option === "point") {
+    if (query.option === "cityCenter") {
 
       var distFromCityCenter = Number(query.distFromCityCenter) || 100; //unit: kilometers
       distFromCityCenter /= earthRadius; //we need to convert the distance to radians; earch radius is approx. 6371.1 kilometers
@@ -85,9 +80,6 @@ app.get('/ickm16/features', function(req, res){
         }
       };
     }
-    console.log(coordinates);
-    console.log(typeof coordinates);
-    console.log(mongoQuery);
 
     Fsfeature.find({
       location: mongoQuery
