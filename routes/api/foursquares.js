@@ -19,7 +19,9 @@ app.get('/ickm16', function(req, res){
 */
 
 app.get('/ickm16/features', function(req, res){
-  var earthRadius = 6371;
+  var earthRadius = 6371.1;
+  var magicNumber = 111.111;
+
   var query = req.query;
 
   if (!query.option) {
@@ -54,38 +56,32 @@ app.get('/ickm16/features', function(req, res){
         message: 'city cannot be found error: ' + err
       });
     }
+    var cityCenterLat = listing.lat;
+    var cityCenterLng = listing.lng;
 
     if (query.option === "point") {
-      var cityCenterLat = listing.lat;
-      var cityCenterLng = listing.lng;
+
       var distFromCityCenter = Number(query.distFromCityCenter) || 100; //unit: kilometers
-      distFromCityCenter /= earthRadius; //we need to convert the distance to radians; earch radius is approx. 6371 kilometers
+      distFromCityCenter /= earthRadius; //we need to convert the distance to radians; earch radius is approx. 6371.1 kilometers
 
       var mongoQuery = {
         "$near": [cityCenterLng, cityCenterLat],
-        "$maxDistance": distFromCityCenter
+        "$maxDistance": distFromCityCenter //radians!
       };
     } else if (query.option === "rect") {
 
+      //in the future, it should wrap into a function; not useful when near the poles or the requested area is large
       var rectCenter = query.center.split(',').map(Number);
-      var width = Number(query.width)/earthRadius;
-      var height = Number(query.height)/earthRadius;
+      var width = Number(query.width)/magicNumber*Math.cos(cityCenterLat/360*2*Math.PI);
+      var height = Number(query.height)/magicNumber;
 
       var coordinates = [];
-      coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] - 0.5*height ]);
-      coordinates.push([ rectCenter[0] + 0.5*width, rectCenter[1] - 0.5*height ]);
-      coordinates.push([ rectCenter[0] + 0.5*width, rectCenter[1] + 0.5*height ]);
-      coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] + 0.5*height ]);
-      //close the polygon loop
-      coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] - 0.5*height ]);
-
+      coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] - 0.5*height ]); //bottom left coordinates
+      coordinates.push([ rectCenter[0] + 0.5*width, rectCenter[1] + 0.5*height ]); //upper right coordinates
 
       var mongoQuery = {
         "$geoWithin": {
-           "$geometry": {
-              type: "Polygon",
-              coordinates: [ coordinates ]
-           }
+           "$box": coordinates
         }
       };
     }
