@@ -39,76 +39,7 @@ app.get('/ickm16/features', function(req, res){
 
   var count = Number(query.count) || 10;
 
-  if (query.option === "cityCenter") {
-    Fs_city.findOne({
-      city_name: query.market
-    }, function(err, listing){
-      if (err) {
-        return res.status(400).json({
-          errcode: '00343',
-          message: 'city cannot be found: ' + err
-        });
-      }
-
-      var cityCenterLat = listing.lat;
-      var cityCenterLng = listing.lng;
-
-      var distFromCityCenter = Number(query.distFromCityCenter) || 100; //unit: kilometers
-      distFromCityCenter /= earthRadius; //we need to convert the distance to radians; earch radius is approx. 6371.1 kilometers
-
-      var mongoQuery = {
-        "$near": [cityCenterLng, cityCenterLat],
-        "$maxDistance": distFromCityCenter //radians!
-      };
-
-      bnbFeature(mongoQuery, count, function(err, features) {
-        if (err) {
-          return res.status(400).json({
-            errcode: '00032',
-            message: 'features cannot be found error: ' + err
-          });
-        }
-
-        return res.status(200).json({
-          errcode: 0,
-          data: features
-        });
-      });
-
-
-    });
-  } else if (query.option === "rect") {
-    //in the future, it should wrap into a function; not useful when near the poles or the requested area is large
-    var rectCenter = query.center.split(',').map(Number);
-    var width = Number(query.width)/magicNumber*Math.cos(cityCenterLat/360*2*Math.PI);
-    var height = Number(query.height)/magicNumber;
-
-    var coordinates = [];
-    coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] - 0.5*height ]); //bottom left coordinates
-    coordinates.push([ rectCenter[0] + 0.5*width, rectCenter[1] + 0.5*height ]); //upper right coordinates
-
-    var mongoQuery = {
-      "$geoWithin": {
-         "$box": coordinates
-      }
-    };
-
-    bnbFeature(mongoQuery, count, function(err, features) {
-      if (err) {
-        return res.status(400).json({
-          errcode: '00032',
-          message: 'features cannot be found error: ' + err
-        });
-      }
-
-      return res.status(200).json({
-        errcode: 0,
-        data: features
-      });
-    });
-  }
-
-  function bnbFeature(query, count, callback) {
+  var bnbFeature = function (query, count, callback) {
     Full_listing.find({
       location: query
     }, {
@@ -138,5 +69,56 @@ app.get('/ickm16/features', function(req, res){
     });
   }
 
+  Fs_city.findOne({
+    city_name: query.market
+  }, function(err, listing){
+    if (err) {
+      return res.status(400).json({
+        errcode: '00343',
+        message: 'city cannot be found: ' + err
+      });
+    }
+    var cityCenterLat = listing.lat;
+    var cityCenterLng = listing.lng;
 
+    if (query.option === "cityCenter") {
+      var distFromCityCenter = Number(query.distFromCityCenter) || 100; //unit: kilometers
+      distFromCityCenter /= earthRadius; //we need to convert the distance to radians; earch radius is approx. 6371.1 kilometers
+
+      var mongoQuery = {
+        "$near": [cityCenterLng, cityCenterLat],
+        "$maxDistance": distFromCityCenter //radians!
+      };
+    } else if (query.option === "rect") {
+      //in the future, it should wrap into a function; not useful when near the poles or the requested area is large
+      var rectCenter = query.center.split(',').map(Number);
+
+      var width = Number(query.width)/magicNumber*Math.cos(cityCenterLat/360*2*Math.PI);
+      var height = Number(query.height)/magicNumber;
+
+      var coordinates = [];
+      coordinates.push([ rectCenter[0] - 0.5*width, rectCenter[1] - 0.5*height ]); //bottom left coordinates
+      coordinates.push([ rectCenter[0] + 0.5*width, rectCenter[1] + 0.5*height ]); //upper right coordinates
+
+      var mongoQuery = {
+        "$geoWithin": {
+           "$box": coordinates
+        }
+      };
+    }
+
+    bnbFeature(mongoQuery, count, function(err, features) {
+      if (err) {
+        return res.status(400).json({
+          errcode: '00032',
+          message: 'features cannot be found error: ' + err
+        });
+      }
+
+      return res.status(200).json({
+        errcode: 0,
+        data: features
+      });
+    });
+  });
 });
