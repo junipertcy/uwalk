@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var schema = module.exports = new mongoose.Schema({
   "id": Number,
   "listing_url": String,
+  "location": [{ type: [Number], index: '2d' }],
   "scrape_id": Number,
   "last_scraped": String,
   "name": String,
