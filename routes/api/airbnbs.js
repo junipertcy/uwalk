@@ -37,7 +37,12 @@ app.get('/ickm16/features', function(req, res){
     });
   }
 
-  var count = Number(query.count) || 10;
+  var count;
+  if (query.count === "all") {
+    count = 10000000;
+  } else {
+    count = Number(query.count) || 10;
+  }
 
   var bnbFeature = function (query, count, callback) {
     Full_listing.find({

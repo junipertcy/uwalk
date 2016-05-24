@@ -47,7 +47,13 @@ app.get('/ickm16/features', function(req, res){
       data: "You should specify a market.  :-)"
     });
   }
-  var count = Number(query.count) || 10;
+
+  var count;
+  if (query.count === "all") {
+    count = 10000000;
+  } else {
+    count = Number(query.count) || 10;
+  }
 
   Fs_city.findOne({
     city_name: query.market
