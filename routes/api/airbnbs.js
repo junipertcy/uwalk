@@ -122,7 +122,8 @@ app.get('/ickm16/features', function(req, res){
 
       return res.status(200).json({
         errcode: 0,
-        data: features
+        data: features,
+        count: features.length
       });
     });
   });
