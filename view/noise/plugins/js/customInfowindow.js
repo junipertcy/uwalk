@@ -79,7 +79,7 @@ var infoWindow = function (latlng, callback) {
       //Select yearly data
 
       var loc = latlng.toString().split(',').map(Number);
-      $.get('http://uwalk.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
+      $.get('http://uwalk.us-west-1.elasticbeanstalk.com/pictures?lat=' + loc[0] +'&lng=' + loc[1], function(dataPic){
         drawMap(loc[0], loc[1]);
         drawNetwork(loc[0], loc[1]);
 

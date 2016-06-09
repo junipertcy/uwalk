@@ -3,7 +3,7 @@
 var drawNetwork = function(lat, lng) {
   $.ajax({
     type: 'GET',
-    url: 'http://uwalk.elasticbeanstalk.com/networks',
+    url: 'http://uwalk.us-west-1.elasticbeanstalk.com/networks',
     data: {
       lng: lng.toString(),
       lat: lat.toString()
